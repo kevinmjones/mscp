@@ -3707,8 +3707,6 @@ x-onetrust:
 x-readme:
   explorer-enabled: false
   proxy-enabled: false
-servers:
-  - url: "https://uat.onetrust.com/api"
 components:
   parameters:
     attributeId:
