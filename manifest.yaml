@@ -1,7 +1,7 @@
 Descriptor:
   Name: datamap
   DisplayName: datamap
-  Description: This tool can query the onetrust inventory and return details about specific assets by GUID
+  Description: This tool can query the onetrust data mapping inventory for assets, vendors, entities, and processing activities.
   SupportedAuthTypes:
     - ApiKey
   Authorization:
