@@ -14,3 +14,4 @@ SkillGroups:
   - Format: API
     Settings:
       OpenApiSpecUrl: https://developer.onetrust.com/onetrust/openapi/672aa7a509edfd001fd040ba
+      Host: https://uat.onetrust.com
