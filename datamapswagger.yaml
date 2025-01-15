@@ -1,0 +1,4677 @@
+openapi: "3.0.0"
+info:
+  contact: {}
+  title: "Privacy Cloud - Data Mapping Automation"
+  version: "2.0"
+paths:
+  /inventory-linking/v1/contextual-entities/inventory/{inventoryId}/pages:
+    post:
+      description: "Use this API to get all relationships for an Inventory.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory-linking/v1/contextual-entities/inventory/{inventoryId}/pages`\n\n`POST https://trial.onetrust.com/api/inventory-linking/v1/contextual-entities/inventory/c42797a7-64d2-47dd-bc13-62b1409bd68c/pages?size=20&page=0`"
+      operationId: "listAllInventoryRelationshipsUsingPOST"
+      parameters:
+        - description: "ID of the Inventory"
+          in: "path"
+          name: "inventoryId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "Ok"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get List of Relationships"
+      tags:
+        - "Inventory Relationships V2"
+  /inventory-linking/v1/contextual-entities/{contextualLinkId}/contextual-entity-types/names/{entityTypeName}:
+    put:
+      description: "Use this API to modify a contextual link between two entities.\n\n### Example Request\n\n`PUT https://{hostname}/api/inventory-linking/v1/contextual-entities/{contextualLinkId}/contextual-entity-types/names/{entityTypeName}`\n\n`PUT https://trial.onetrust.com/api/inventory-linking/v1/contextual-entities/84cda4e6-4de1-4835-9dfd-46f88deb11c3/contextual-entity-types/names/Related`"
+      operationId: "updateInventoryRelationsUsingEntityTypeName"
+      parameters:
+        - description: "ID of the contextual entity"
+          in: "path"
+          name: "contextualLinkId"
+          required: true
+          schema:
+            type: "string"
+        - description: "Name of domain entity type"
+          in: "path"
+          name: "entityTypeName"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContextualLinkUpdateRequest"
+        description: "Request body to modify the contextual link that was created between two assets.\n\n\n"
+        required: true
+      responses:
+        200:
+          description: "Ok"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Update Relationship"
+      tags:
+        - "Inventory Relationships V2"
+  /inventory-linking/v1/contextual-entities/{contextualLinkId}/contextual-entity-types/names/{entityTypeName}/data-elements:
+    put:
+      description: "Use this API to link or Unlink the personal data to a relationship.\n\n### Example Request\n\n`PUT https://{hostname}/api/inventory-linking/v1/contextual-entities/{contextualLinkId}/contextual-entity-types/names/{entityTypeName}/data-elements`\n\n`PUT https://trial.onetrust.com/api/inventory-linking/v1/contextual-entities/123456789-abcd-abcd-abcd-123456789/contextual-entity-types/names/Related/data-elements`"
+      operationId: "linkOrUnlinkInventoryRelationshipsUsingRelationshipUsingPUT"
+      parameters:
+        - description: "ID of the contextual entity"
+          in: "path"
+          name: "contextualLinkId"
+          required: true
+          schema:
+            type: "string"
+        - description: "Name of domain entity type"
+          in: "path"
+          name: "entityTypeName"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: "#/components/schemas/PersonalDataRequest"
+              type: "array"
+        description: "Request body used to link or unlink personal data to a contextual entity.\n\n"
+        required: true
+      responses:
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      summary: "Link or Unlink Personal Data to Relationship"
+      tags:
+        - "Inventory Relationships V2"
+  /inventory-linking/v1/contextual-entities/{contextualLinkId}/contextual-entity-types/names/{entityTypeName}/data-elements/pages:
+    post:
+      description: "Use this API to get Personal Data for a Relationship.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory-linking/v1/contextual-entities/{contextualLinkId}/contextual-entity-types/names/{entityTypeName}/data-elements/pages`\n\n`POST https://trial.onetrust.com/api/inventory-linking/v1/contextual-entities/61f2ece3-9231-49a6-8da0-f231f97294db/contextual-entity-types/names/Related/data-elements/pages?size=20&page=0`"
+      operationId: "getPersonalDataForRelationshipsUsingPOST"
+      parameters:
+        - description: "ID of the contextual entity"
+          in: "path"
+          name: "contextualLinkId"
+          required: true
+          schema:
+            type: "string"
+        - description: "Name of domain entity type"
+          in: "path"
+          name: "entityTypeName"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "Ok"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Personal Data for Relationship"
+      tags:
+        - "Inventory Relationships V2"
+  /inventory-linking/v1/inventories/relations:
+    post:
+      description: "Use this API to create a bidirectional link between an inventory and one or more other inventories.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory-linking/v1/inventories/relations`\n\n`POST https://trial.onetrust.com/api/inventory-linking/v1/inventories/relations`"
+      operationId: "createInventoryRelationsUsingPOST"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LinkRequestDto"
+        description: "Request body to establish a relationship between inventories along with  contextual processing activity, and relationship attributes.\n\n\n"
+        required: true
+      responses:
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      summary: "Create Relationship"
+      tags:
+        - "Inventory Relationships V2"
+  /inventory-linking/v1/relationship-types/names/{relationshipTypeName}/relationship/{relationshipId}:
+    delete:
+      description: "Use this API to remove a contextual link between two entities.\n### Additional information:\nThis API throws an exception if contextual/direct link does not exist.\n\n### Example Request\n\n`DELETE https://{hostname}/api/inventory-linking/v1/relationship-types/names/{relationshipTypeName}/relationship/{relationshipId}`\n\n`DELETE https://trial.onetrust.com/api/inventory-linking/v1/relationship-types/names/Related/relationship/123456789-abcd-abcd-abcd-123456789`"
+      operationId: "deleteInventoryRelationsUsingRelationshipTypeName"
+      parameters:
+        - description: "Name of domain entity type"
+          in: "path"
+          name: "relationshipTypeName"
+          required: true
+          schema:
+            type: "string"
+        - description: "ID of the contextual entity"
+          in: "path"
+          name: "relationshipId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      summary: "Delete Relationship"
+      tags:
+        - "Inventory Relationships V2"
+    get:
+      description: "Use this API to get relationship details created between entities.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory-linking/v1/relationship-types/names/{relationshipTypeName}/relationship/{relationshipId}`\n\n`GET https://trial.onetrust.com/api/inventory-linking/v1/relationship-types/names/Related/relationship/123456789-abcd-abcd-abcd-123456789`"
+      operationId: "getInventoryRelationshipUsingRelationshipTypeName"
+      parameters:
+        - description: "Name of domain entity type"
+          in: "path"
+          name: "relationshipTypeName"
+          required: true
+          schema:
+            type: "string"
+        - description: "ID of the contextual entity"
+          in: "path"
+          name: "relationshipId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Relationship"
+      tags:
+        - "Inventory Relationships V2"
+  /inventory/v2/data-categories:
+    get:
+      description: "Use this API to retrieve a list of all existing Data Categories. \n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/data-categories`\n\n`GET https://trial.onetrust.com/api/inventory/v2/data-categories`"
+      operationId: "listAllDataCategoriesUsingGET"
+      parameters:
+        - description: "The result page to be returned."
+          in: "query"
+          name: "page"
+          required: true
+          schema:
+            type: "string"
+            default: "0"
+        - description: "The number of elements to be returned in a page. \n(Note: The maximum size value may differ by API and is subject to change. If a number greater than the maximum is requested, the API will return the maximum allowed value.)"
+          in: "query"
+          name: "size"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OneTrustResponseListDataCategoryResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get List of Data Categories"
+      tags:
+        - "Personal Data"
+    post:
+      description: "Use this API to to create new Data Categories in Data Mapping Automation module.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/data-categories`\n\n`POST https://trial.onetrust.com/api/inventory/v2/data-categories`"
+      operationId: "createDataCategoryUsingPOST"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                description:
+                  type: "string"
+                value:
+                  type: "string"
+              type: "object"
+        description: "createRequest"
+        required: true
+        x-examples:
+          application/json:
+            description: "this is a sample Data category"
+            value: "NewDataCategory1"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseDataCategoryResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        409:
+          description: "{\n  \"errors\": [\n    {\n      \"code\": \"already-exists\",\n      \"detail\": \"Data Category with name \\u003CSample Name Category\\u003E already exists\",\n      \"source\": null,\n      \"title\": \"Resource Already Exists\"\n    }\n  ]\n}"
+      summary: "Create Data Category"
+      tags:
+        - "Personal Data"
+  /inventory/v2/data-categories/{id}:
+    delete:
+      description: "Use this API to delete Data Categories within the Data Mapping Automation Module of OneTrust. To successfully delete a data category, there must be no data-elements assigned to the data category.\n\n### Example Request\n\n`DELETE https://{hostname}/api/inventory/v2/data-categories/{id}`\n\n`DELETE https://trial.onetrust.com/api/inventory/v2/data-categories/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "deleteDataCategoryUsingDELETE"
+      parameters:
+        - description: "ID of the data category. The value is obtained using [Get List of Data Categories](/onetrust/reference/listalldatacategoriesusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        204:
+          description: "No Content"
+        400:
+          description: "{\n  \"errors\": [\n    {\n      \"code\": \"invalid\",\n      \"detail\": \"This Data Category cannot be deleted because this record is being used by data elements. Please update any data elements to no longer use this Data Category before deleting.\",\n      \"source\": null,\n      \"title\": \"Resource Used By An Element\"\n    }\n  ]\n}\n"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+      summary: "Delete Data Category"
+      tags:
+        - "Personal Data"
+    get:
+      description: "Use this API to provide the details of a single Data Category by ID.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/data-categories/{id}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/data-categories/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "getDataCategoryUsingGET"
+      parameters:
+        - description: "ID of the data category. The value is obtained using [Get List of Data Categories](/onetrust/reference/listalldatacategoriesusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseDataCategoryResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Data Category"
+      tags:
+        - "Personal Data"
+  /inventory/v2/data-classifications:
+    get:
+      description: "Use this API to retrieve a list of all existing Data Classifications.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/data-classifications`\n\n`GET https://trial.onetrust.com/api/inventory/v2/data-classifications`"
+      operationId: "listAllDataClassificationsUsingGET"
+      parameters:
+        - description: "The result page to be returned."
+          in: "query"
+          name: "page"
+          required: true
+          schema:
+            type: "string"
+            default: "0"
+        - description: "The number of elements to be returned in a page. \n(Note: The maximum size value may differ by API and is subject to change. If a number greater than the maximum is requested, the API will return the maximum allowed value.)"
+          in: "query"
+          name: "size"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OneTrustResponseListDataClassificationResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get List of Data Classifications"
+      tags:
+        - "Personal Data"
+    post:
+      description: "Use this API to create new Data Mapping Automation-Data Classification.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/data-classifications`\n\n`POST https://trial.onetrust.com/api/inventory/v2/data-classifications`"
+      operationId: "createDataClassificationUsingPOST"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DataClassificationCreateUpdateRequest"
+        description: "createRequest"
+        required: true
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseDataClassificationResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      summary: "Create Data Classification"
+      tags:
+        - "Personal Data"
+  /inventory/v2/data-classifications/{id}:
+    delete:
+      description: "Use this API to delete a data category, the Data Classification ID must be provided in the URL path.\n\n### Example Request\n\n`DELETE https://{hostname}/api/inventory/v2/data-classifications/{id}`\n\n`DELETE https://trial.onetrust.com/api/inventory/v2/data-classifications/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "deleteDataClassificationUsingDELETE"
+      parameters:
+        - description: "ID of the data classification. The value is obtained using [Get List of Data Classifications](/onetrust/reference/listalldataclassificationsusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        204:
+          description: "No Content"
+          content:
+            application/json:
+              examples:
+                response:
+                  value: {}
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+      summary: "Delete Data Classification"
+      tags:
+        - "Personal Data"
+    get:
+      description: "Use this API to retrieve the details of a single Data Classification by ID.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/data-classifications/{id}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/data-classifications/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "getDataClassificationUsingGET"
+      parameters:
+        - description: "ID of the data classification. The value is obtained using [Get List of Data Classifications](/onetrust/reference/listalldataclassificationsusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseDataClassificationResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Data Classification"
+      tags:
+        - "Personal Data"
+  /inventory/v2/data-elements:
+    get:
+      description: "Use this API to retrieve the list of all existing Data Elements. \n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/data-elements`\n\n`GET https://trial.onetrust.com/api/inventory/v2/data-elements`"
+      operationId: "listAllDataElementsUsingGET"
+      parameters:
+        - description: "The result page to be returned."
+          in: "query"
+          name: "page"
+          required: true
+          schema:
+            type: "number"
+            default: "0"
+        - description: "The number of elements to be returned in a page. \n(Note: The maximum size value may differ by API and is subject to change. If a number greater than the maximum is requested, the API will return the maximum allowed value.)"
+          in: "query"
+          name: "size"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OneTrustResponseListDataElementDetailedResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get List of Data Elements"
+      tags:
+        - "Personal Data"
+    post:
+      description: "Use this API to create new Data Elements in Data Mapping Automation module.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/data-elements`\n\n`POST https://trial.onetrust.com/api/inventory/v2/data-elements`"
+      operationId: "createDataElementUsingPOST"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DataElementCreateRequest"
+        description: "createRequest"
+        required: true
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseDataElementDetailedResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      summary: "Create Data Element"
+      tags:
+        - "Personal Data"
+  /inventory/v2/data-elements/{id}:
+    delete:
+      description: "Use this API to delete a data element.\n\n### Example Request\n\n`DELETE https://{hostname}/api/inventory/v2/data-elements/{id}`\n\n`DELETE https://trial.onetrust.com/api/inventory/v2/data-elements/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "deleteDataElementUsingDELETE"
+      parameters:
+        - description: "ID of the data element. The value is obtained using [Get List of Data Elements](/onetrust/reference/listalldataelementsusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+      summary: "Delete Data Element"
+      tags:
+        - "Personal Data"
+    get:
+      description: "Use this API to retrieve the details of a single Data Element by ID.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/data-elements/{id}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/data-elements/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "getDataElementUsingGET"
+      parameters:
+        - description: "ID of the data element. The value is obtained using [Get List of Data Elements](/onetrust/reference/listalldataelementsusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseDataElementDetailedResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Data Element"
+      tags:
+        - "Personal Data"
+  /inventory/v2/data-subjects:
+    get:
+      description: "Use this API to retrieve the list of all existing Data Subjects.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/data-subjects`\n\n`GET https://trial.onetrust.com/api/inventory/v2/data-subjects`"
+      operationId: "listAllDataSubjectsUsingGET"
+      parameters:
+        - description: "The result page to be returned."
+          in: "query"
+          name: "page"
+          required: true
+          schema:
+            type: "string"
+            default: "0"
+        - description: "The number of elements to be returned in a page. \n(Note: The maximum size value may differ by API and is subject to change. If a number greater than the maximum is requested, the API will return the maximum allowed value.)"
+          in: "query"
+          name: "size"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OneTrustResponseListDataSubjectResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get List of Data Subjects"
+      tags:
+        - "Personal Data"
+    post:
+      description: "Use this API to create new Data Subject in the Data Mapping Automation Module.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/data-subjects`\n\n`POST https://trial.onetrust.com/api/inventory/v2/data-subjects`"
+      operationId: "createDataSubjectUsingPOST"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DataSubjectCreateUpdateRequest"
+        description: "createRequest"
+        required: true
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseDataSubjectResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      summary: "Create Data Subject"
+      tags:
+        - "Personal Data"
+  /inventory/v2/data-subjects/{id}:
+    delete:
+      description: "Use this API to delete a data element. \n\n### Example Request\n\n`DELETE https://{hostname}/api/inventory/v2/data-subjects/{id}`\n\n`DELETE https://trial.onetrust.com/api/inventory/v2/data-subjects/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "deleteDataSubjectUsingDELETE"
+      parameters:
+        - description: "ID of the data subject. The value is obtained using [Get List of Data Subjects](/onetrust/reference/listalldatasubjectsusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+      summary: "Delete Data Subject"
+      tags:
+        - "Personal Data"
+    get:
+      description: "Use this API to retrieve the details of a single Data Subject by ID.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/data-subjects/{id}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/data-subjects/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "getDataSubjectUsingGET"
+      parameters:
+        - description: "ID of the data subject. The value is obtained using [Get List of Data Subjects](/onetrust/reference/listalldatasubjectsusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseDataSubjectResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Data Subject"
+      tags:
+        - "Personal Data"
+  /inventory/v2/inventories-personal-data/{personalDataAssociationId}:
+    parameters:
+      - description: "Type of the Inventory. Supported Types are ('assets','processing-activities')."
+        in: "query"
+        name: "inventoryType"
+        required: true
+        schema:
+          type: "string"
+      - description: "ID of the Personal Data Association that is linked to an Inventory object."
+        in: "path"
+        name: "personalDataAssociationId"
+        required: true
+        schema:
+          type: "string"
+    put:
+      description: "Use this API to update the advanced attributes of a Personal Data Association that is linked to an inventory object. \n\n\n### Example Request\n\n\n`PUT https://{hostname}/api/inventory/v2/inventories-personal-data/{personalDataAssociationId}`\n\n\n`PUT https://trial.onetrust.com/api/inventory/v2/inventories-personal-data/96214230-ffbb-4870-b6c4-0f30c3bfec60?inventoryType=assets`"
+      operationId: "updateAdvancedAttributesForPersonalDataAssociationUsingPUT"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ""
+              properties:
+                linkAttributes:
+                  properties:
+                    {attributeFieldName}:
+                      items:
+                        properties:
+                          value:
+                            minLength: 1
+                            type: "string"
+                          valueId:
+                            minLength: 1
+                            type: "string"
+                          valueKey:
+                            minLength: 1
+                            type: "string"
+                        required:
+                          - "id"
+                          - "value"
+                          - "valueKey"
+                      minItems: 1
+                      type: "array"
+                      uniqueItems: true
+                  required:
+                    - "{attributeFieldName}"
+                  type: "object"
+              required:
+                - "linkAttributes"
+              type: "object"
+              x-examples:
+                example-1:
+                  linkAttributes:
+                    {attributeFieldName}:
+                      - value: "2-4 years"
+                        valueId: "d5873280-a0ec-4960-95c6-0bde0a9e41fe"
+                        valueKey: "d5873280-a0ec-4960-95c6-0bde0a9e41fe"
+        x-examples:
+          example-1:
+            linkAttributes:
+              {attributeFieldName}:
+                - value: "string"
+                  valueId: "string"
+                  valueKey: "string"
+      responses:
+        200:
+          description: "OK\n\n\nAdvanced attributes updated successfully."
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: "object"
+            example-1:
+              examples:
+                response:
+                  value: {}
+        400:
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: "object"
+        401:
+          description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: "object"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      security:
+        - apikey: []
+        - oauth2:
+            - "INVENTORY_READ"
+            - "INVENTORY_WRITE"
+      summary: "Update Advanced Attributes for Personal Data Association"
+      tags:
+        - "Inventory Relationships V1"
+  /inventory/v2/inventories/{id}/associations/{associationId}:
+    put:
+      description: "Use this API to update a bidirectional link between two inventories.\n\n### Example Request\n\n`PUT https://{hostname}/api/inventory/v2/inventories/{id}/associations/{associationId}`\n\n`PUT https://trial.onetrust.com/api/inventory/v2/inventories/43fd3a8d-3f6b-464e-bf43-3f0c6c592442/associations/53fd3a8d-3f6b-464e-bf43-4f0c6c592442`   "
+      operationId: "updateInventoryAssociationTypeUsingPUT"
+      parameters:
+        - $ref: "#/components/parameters/inventoryId"
+        - description: "ID of the inventory associated to an Inventory object. The value is obtained using [Get Inventory Links](/onetrust/reference/getinventoryrelationsbyidusingget) API."
+          in: "path"
+          name: "associationId"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: "#/components/schemas/InventoryAssociationRequest"
+              type: "array"
+        description: "associationRequest"
+        required: true
+      responses:
+        200:
+          description: "OK"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Update Inventory Link"
+      tags:
+        - "Inventory Relationships V1"
+  /inventory/v2/inventories/{id}/attachments:
+    post:
+      description: "Use this API to add existing attachments to inventory record. Users can see these attached documents under Documents tab of Inventory Details page.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{inventoryId}/attachments`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/43ca460e-4c87-4bdf-8148-adbf3617e391/attachments`"
+      operationId: "addAttachmentsToInventoryUsingPOST"
+      parameters:
+        - $ref: "#/components/parameters/inventoryId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListInventoryAttachmentRequest"
+        description: "Required information to add existing attachments to inventory."
+        required: true
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        409:
+          description: "Conflict"
+      summary: "Add Attachments to Inventory"
+      tags:
+        - "Inventory"
+  /inventory/v2/inventories/{id}/personal-data:
+    delete:
+      description: "Use this API to permanently delete a link between an inventory and personal data items.\n\n### Example Request\n\n`DELETE https://{hostname}/api/inventory/v2/inventories/{id}/personal-data`\n\n`DELETE https://trial.onetrust.com/api/inventory/v2/inventories/43fd3a8d-3f6b-464e-bf43-3f0c6c592442/personal-data`"
+      operationId: "removePersonalDataAssociationsUsingDELETE"
+      parameters:
+        - description: "ID of an inventory. The value is obtained using [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: "#/components/schemas/PersonalDataLinkRequest"
+              type: "array"
+        description: "removalRequests"
+        required: true
+      responses:
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+      summary: "Delete Personal Data Link"
+      tags:
+        - "Inventory Relationships V1"
+    get:
+      description: "Use this API to list existing links between an inventory and personal data items.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/inventories/{id}/personal-data`\n\n`GET https://trial.onetrust.com/api/inventory/v2/inventories/43fd3a8d-3f6b-464e-bf43-3f0c6c592442/personal-data`"
+      operationId: "listPersonalDataAssociationsUsingGET"
+      parameters:
+        - description: "ID of an inventory. The value is obtained using [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+        - description: "The result page to be returned."
+          in: "query"
+          name: "page"
+          required: true
+          schema:
+            type: "string"
+        - description: "The number of elements to be returned in a page. \n(Note: The maximum size value may differ by API and is subjected to change. If a number greater than the maximum is requested, the API will return the maximum allowed value.)"
+          in: "query"
+          name: "size"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OneTrustResponseListPersonalDataLinkResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Personal Data Links"
+      tags:
+        - "Inventory Relationships V1"
+    post:
+      description: "Use this API to create a link between inventory and personal data items.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{id}/personal-data`\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/43fd3a8d-3f6b-464e-bf43-3f0c6c592442/personal-data`"
+      operationId: "linkPersonalDataUsingPOST"
+      parameters:
+        - description: "ID of an inventory. The value is obtained using [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: "#/components/schemas/PersonalDataLinkRequest"
+              type: "array"
+        description: "createRequests"
+        required: true
+      responses:
+        200:
+          description: "OK"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Link Personal Data"
+      tags:
+        - "Inventory Relationships V1"
+  /inventory/v2/inventories/{id}/relations:
+    delete:
+      description: "Use this API to permanently delete a link between an inventory and one or more other inventories.\n\n### Example Request\n\n`DELETE https://{hostname}/api/inventory/v2/inventories/{id}/relations`\n\n`DELETE https://trial.onetrust.com/api/inventory/v2/inventories/43fd3a8d-3f6b-464e-bf43-3f0c6c592442/relations`"
+      operationId: "deleteRelationsUsingDELETE"
+      parameters:
+        - $ref: "#/components/parameters/inventoryId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: "#/components/schemas/InventoryAssociationRemoveRequest"
+              type: "array"
+        description: "Indicate list of inventoryAssociationIds to remove."
+        required: true
+      responses:
+        200:
+          description: "OK"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Delete Inventory Link"
+      tags:
+        - "Inventory Relationships V1"
+    post:
+      description: "Use this API to create a bidirectional link between an inventory and one or more other inventories.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{id}/relations`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/43fd3a8d-3f6b-464e-bf43-3f0c6c592442/relations`"
+      operationId: "createRelationsUsingPOST"
+      parameters:
+        - $ref: "#/components/parameters/inventoryId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: "#/components/schemas/InventoryAssociationCreateRequest"
+              type: "array"
+        description: "createRequests"
+        required: true
+      responses:
+        200:
+          description: "OK"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Link Inventory"
+      tags:
+        - "Inventory Relationships V1"
+  /inventory/v2/inventories/{id}/relations/{type}:
+    get:
+      description: "Use this API to list an existing links between an inventory and one or more other inventories of a given type.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/inventories/{id}/relations/{type}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/inventories/43fd3a8d-3f6b-464e-bf43-3f0c6c592442/relations/vendors`"
+      operationId: "getInventoryRelationsByIdUsingGET"
+      parameters:
+        - $ref: "#/components/parameters/inventoryId"
+        - $ref: "#/components/parameters/inventoryType"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseInventoryAssociationDto"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Inventory Links"
+      tags:
+        - "Inventory Relationships V1"
+  /inventory/v2/inventories/{inventoryId}/assets:
+    post:
+      description: "Use this API to create an asset child inventory for an asset inventory.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{inventoryId}/assets`\n\n\n `POST\nhttps://trial.onetrust.com/api/inventory/v2/inventories/96214230-ffbb-4870-b6c4-0f30c3bfec60/assets`"
+      operationId: "createAssetChildinventoryForAssetInventoryUsingPOST"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "inventoryId"
+          required: true
+          schema:
+            type: "string"
+        - description: "This parameter copies all of the related inventories and data elements from the parent inventory to the child inventory.\n\nSetting this as **\"true\"** will copy all of the current records for related inventories and data elements of the Root Inventory to the newly created Child Inventory.\n\nSetting this as **false** will not copy any related records."
+          in: "query"
+          name: "copyRelatedRecords"
+          required: true
+          schema:
+            type: "boolean"
+            enum:
+              - true
+              - false
+        - description: "If this is set to true, then the child record will be automatically updated with changes from the parent record (subject to inheritance settings). If this is set to false, then the child record will not get updated with changes to the parent record, regardless of inheritance settings.\n\nThe Feature Toggle **LocalVersionAcceptance** will need to be **enabled** in order for the request to be successful when inheritFromParent is set to **false**."
+          in: "query"
+          name: "inheritFromParent"
+          required: true
+          schema:
+            type: "boolean"
+            enum:
+              - true
+              - false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                location:
+                  properties:
+                    id:
+                      description: "ID of the Location."
+                      example: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+                      type: "string"
+                    value:
+                      description: "Name of the Location."
+                      example: "Algeria"
+                      type: "string"
+                    valueKey:
+                      description: "Value Key of the Location."
+                      example: "Algeria"
+                      type: "string"
+                  type: "object"
+                name:
+                  description: "Name of the Child Inventory."
+                  example: "Child Record 1"
+                  type: "string"
+                organization:
+                  properties:
+                    id:
+                      description: "ID of the Tenant Organization."
+                      example: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+                      type: "string"
+                    value:
+                      description: "Name of the Tenant Organization."
+                      example: "zentrust"
+                      type: "string"
+                  type: "object"
+              type: "object"
+        description: "Mandatory Parent Asset Inventory Object that should create a Child Asset Inventory Object\n"
+        x-examples:
+          application/json:
+            location:
+              id: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+              value: "Algeria"
+              valueKey: "Algeria"
+            name: "Child Record"
+            organization:
+              id: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+              value: "zentrust"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      id:
+                        description: "ID of the Child Inventory."
+                        example: "a8dce0d6-1e27-4f92-a522-61f21hwe7we9"
+                        type: "string"
+                    type: "object"
+                type: "object"
+              examples:
+                response:
+                  value:
+                    data:
+                      id: "a8dce0d6-1e27-4f92-a522-61f21hwe7we9"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Create Asset Child Inventory"
+      tags:
+        - "Inventory Hierarchies"
+      x-private: true
+  /inventory/v2/inventories/{inventoryId}/legal-entities:
+    post:
+      description: "Use this API to create a legal entity child inventory for a legal entity inventory.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{inventoryId}/legal-entities`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/96214230-ffbb-4870-b6c4-0f30c3bfec60/legal-entities`"
+      operationId: "createLegalEntityChildinventoryForLegalEntityInventoryUsingPOST"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "inventoryId"
+          required: true
+          schema:
+            type: "string"
+        - description: "This parameter copies all of the related inventories and data elements from the parent inventory to the child inventory.\n\nSetting this as **\"true\"** will copy all of the current records for related inventories and data elements of the Root Inventory to the newly created Child Inventory.\n\nSetting this as **false** will not copy any related records."
+          in: "query"
+          name: "copyRelatedRecords"
+          required: true
+          schema:
+            type: "boolean"
+            enum:
+              - true
+              - false
+        - description: "If this is set to true, then the child record will be automatically updated with changes from the parent record (subject to inheritance settings). If this is false, then the child record will not get updated with changes to the parent record, regardless of inheritance settings.\n\nThe Feature Toggle **LocalVersionAcceptance** will need to be **enabled** in order for the request to be successful when inheritFromParent is set to **false**."
+          in: "query"
+          name: "inheritFromParent"
+          required: true
+          schema:
+            type: "boolean"
+            enum:
+              - true
+              - false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  description: "Name of the Child Inventory."
+                  example: "Child Record 1"
+                  type: "string"
+                organization:
+                  properties:
+                    id:
+                      description: "ID of the Tenant Organization."
+                      example: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+                      type: "string"
+                    value:
+                      description: "Name of the Tenant Organization."
+                      example: "zentrust"
+                      type: "string"
+                  type: "object"
+                primaryOperatingLocation:
+                  properties:
+                    id:
+                      description: "ID of the Location."
+                      example: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+                      type: "string"
+                    value:
+                      description: "Name of the Primary Operating Location."
+                      example: "Algeria"
+                      type: "string"
+                    valueKey:
+                      description: "Value Key of the Location."
+                      example: "Algeria"
+                      type: "string"
+                  type: "object"
+              type: "object"
+        description: "Mandatory Parent Legal Entity Inventory Object that should create a Child Legal Entity Inventory Object."
+        x-examples:
+          application/json:
+            name: "Child Record"
+            organization:
+              id: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+              value: "zentrust"
+            primaryOperatingLocation:
+              id: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+              value: "Algeria"
+              valueKey: "Algeria"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      id:
+                        description: "ID of the Child Inventory."
+                        example: "a8dce0d6-1e27-4f92-a522-61f21hwe7we9"
+                        type: "string"
+                    type: "object"
+                type: "object"
+              examples:
+                response:
+                  value:
+                    data:
+                      id: "a8dce0d6-1e27-4f92-a522-61f21hwe7we9"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Create Legal Entity Child Inventory"
+      tags:
+        - "Inventory Hierarchies"
+      x-private: true
+  /inventory/v2/inventories/{inventoryId}/processing-activities:
+    post:
+      description: "Use this API to create a processing activity child inventory for a processing activity inventory.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{inventoryId}/processing-activities`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/96214230-ffbb-4870-b6c4-0f30c3bfec60/processing-activities`"
+      operationId: "createProcessingActivityChildinventoryForProcessingActivityInventoryUsingPOST"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "inventoryId"
+          required: true
+          schema:
+            type: "string"
+        - description: "This parameter copies all of the related inventories and data elements from the parent inventory to the child inventory.\n\nSetting this as **true** will copy all of the current records for related inventories and data elements of the Root Inventory to the newly created Child Inventory.\n\nSetting this as **false** will not copy any related records."
+          in: "query"
+          name: "copyRelatedRecords"
+          required: true
+          schema:
+            type: "boolean"
+            enum:
+              - true
+              - false
+        - description: "If this is set to true, then the child record will be automatically updated with changes from the parent record (subject to inheritance settings). If this is false, then the child record will not get updated with changes to the parent record, regardless of inheritance settings.\n\nThe Feature Toggle **LocalVersionAcceptance** will need to be **enabled** in order for the request to be successful when inheritFromParent is set to **false**."
+          in: "query"
+          name: "inheritFromParent"
+          required: true
+          schema:
+            type: "boolean"
+            enum:
+              - true
+              - false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  description: "Name of the Child Inventory."
+                  example: "Child Record 1"
+                  type: "string"
+                organization:
+                  properties:
+                    id:
+                      description: "ID of the Tenant Organization."
+                      example: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+                      type: "string"
+                    value:
+                      description: "Name of the Tenant Organization."
+                      example: "zentrust"
+                      type: "string"
+                  type: "object"
+              type: "object"
+        description: "Mandatory Parent Processing Activity Inventory Object that should create a Child Processing Activity Inventory Object."
+        x-examples:
+          application/json:
+            name: "Child Record"
+            organization:
+              id: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+              value: "zentrust"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      id:
+                        description: "ID of the Child Inventory."
+                        example: "a8dce0d6-1e27-4f92-a522-61f21hwe7we9"
+                        type: "string"
+                    type: "object"
+                type: "object"
+              examples:
+                response:
+                  value:
+                    data:
+                      id: "a8dce0d6-1e27-4f92-a522-61f21hwe7we9"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Create Processing Activity Child Inventory"
+      tags:
+        - "Inventory Hierarchies"
+      x-private: true
+  /inventory/v2/inventories/{inventoryId}/set-as-parent:
+    put:
+      description: "Use this API to set an existing inventory as a Parent inventory.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/inventories/{inventoryId}/set-as-parent`\n\n`GET https://trial.onetrust.com/api/inventory/v2/inventory/c4bee781-912b-4328-8851-6f906afd7ccb/set-as-parent?inventoryType=assets`"
+      operationId: "setInventoryAsParentInventoryUsingPUT"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "inventoryId"
+          required: true
+          schema:
+            type: "string"
+        - description: "Type of an inventory."
+          in: "query"
+          name: "inventoryType"
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "assets"
+              - "processing-activities"
+              - "vendors"
+              - "legal-entities"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema: {}
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Set Inventory as Parent"
+      tags:
+        - "Inventory Hierarchies"
+  /inventory/v2/inventories/{inventoryId}/unset-as-parent:
+    put:
+      description: "Use this API to unset an existing inventory from being a Parent inventory.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/inventories/{inventoryId}/unset-as-parent`\n\n`GET https://trial.onetrust.com/api/inventory/v2/inventory/c4bee781-912b-4328-8851-6f906afd7ccb/unset-as-parent?inventoryType=assets`"
+      operationId: "unsetInventoryAsParentInventoryUsingPUT"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "inventoryId"
+          required: true
+          schema:
+            type: "string"
+        - description: "Type of the inventory."
+          in: "query"
+          name: "inventoryType"
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "assets"
+              - "processing-activities"
+              - "vendors"
+              - "legal-entities"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema: {}
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Unset Inventory as Parent"
+      tags:
+        - "Inventory Hierarchies"
+  /inventory/v2/inventories/{inventoryId}/vendors:
+    post:
+      description: "Use this API to create an vendor child inventory for a vendor inventory.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{inventoryId}/vendors`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/96214230-ffbb-4870-b6c4-0f30c3bfec60/vendors`"
+      operationId: "createVendorChildinventoryForVendorInventoryUsingPOST"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget)."
+          in: "path"
+          name: "inventoryId"
+          required: true
+          schema:
+            type: "string"
+        - description: "This parameter copies all of the related inventories and data elements from the parent inventory to the child inventory.\n\nSetting this as **true** will copy all of the current records for related inventories and data elements of the Root Inventory to the newly created Child Inventory.\n\nSetting this as **false** will not copy any related records."
+          in: "query"
+          name: "copyRelatedRecords"
+          required: true
+          schema:
+            type: "boolean"
+            enum:
+              - true
+              - false
+        - description: "If this is set to true, then the child record will be automatically updated with changes from the parent record (subject to inheritance settings). If this is false, then the child record will not get updated with changes to the parent record, regardless of inheritance settings.\n\nThe Feature Toggle **LocalVersionAcceptance** will need to be **enabled** in order for the request to be successful when inheritFromParent is set to **false**."
+          in: "query"
+          name: "inheritFromParent"
+          required: true
+          schema:
+            type: "boolean"
+            enum:
+              - true
+              - false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  description: "Name of the Child Inventory."
+                  example: "Child Record 1"
+                  type: "string"
+                organization:
+                  properties:
+                    id:
+                      description: "ID of the Tenant Organization."
+                      example: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+                      type: "string"
+                    value:
+                      description: "Name of the Tenant Organization."
+                      example: "zentrust"
+                      type: "string"
+                  type: "object"
+                type:
+                  properties:
+                    id:
+                      description: "ID of the Type."
+                      example: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+                      type: "string"
+                    value:
+                      description: "Name of the Type."
+                      example: "Technology"
+                      type: "string"
+                    valueKey:
+                      description: "Value Key of the Type."
+                      example: "Technology"
+                      type: "string"
+                  type: "object"
+              type: "object"
+        description: "Mandatory Parent Vendor Inventory Object that should create a Child Vendor Inventory Object."
+        x-examples:
+          application/json:
+            name: "Child Record"
+            organization:
+              id: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+              value: "zentrust"
+            type:
+              id: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+              value: "Technology"
+              valueKey: "Technology"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      id:
+                        description: "ID of the Child Inventory"
+                        example: "a8dce0d6-1e27-4f92-a522-61f21hwe7we9"
+                        type: "string"
+                    type: "object"
+                type: "object"
+              examples:
+                response:
+                  value:
+                    data:
+                      id: "a8dce0d6-1e27-4f92-a522-61f21hwe7we9"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Create Vendor Child Inventory"
+      tags:
+        - "Inventory Hierarchies"
+      x-private: true
+  /inventory/v2/inventories/{parentInventoryId}/link-assets:
+    post:
+      description: "Use this API to link an existing asset inventory as a child inventory to a parent asset inventory.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{parentInventoryId}/link-assets`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/96214230-ffbb-4870-b6c4-0f30c3bfec60/link-assets`"
+      operationId: "linkAssetInventoryToParentAssetIdUsingPOST"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget)."
+          in: "path"
+          name: "parentInventoryId"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                description: "IDs of the Inventory to be Linked as Child Inventory to Parent Inventory."
+                example: "3c8ffb1c-ef35-450e-9111-8dc742e92665"
+                type: "string"
+              type: "array"
+        description: "Mandatory identifiers of Asset inventories that should be linked against the Parent Asset Inventory Object."
+        x-examples:
+          application/json:
+            - "3c8ffb1c-ef35-450e-9111-8dc742e92665"
+            - "c32ce504-f7c5-4b41-a9fa-1fdd1365db40"
+            - "44d8583a-00cb-4157-ba40-89ed25aad649"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema: {}
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Add Asset Inventory as Child to Parent Inventory"
+      tags:
+        - "Inventory Hierarchies"
+  /inventory/v2/inventories/{parentInventoryId}/link-legal-entities:
+    post:
+      description: "Use this API to link an existing legal entity inventory as a child inventory to a parent legal entity inventory.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{parentInventoryId}/link-legal-entities`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/96214230-ffbb-4870-b6c4-0f30c3bfec60/link-legal-entities`"
+      operationId: "linkLegalEntityInventoryToParentLegalEntityIdUsingPOST"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget)."
+          in: "path"
+          name: "parentInventoryId"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                description: "ID of the Inventory to be Linked as Child Inventory to Parent Inventory."
+                example: "3c8ffb1c-ef35-450e-9111-8dc742e92665"
+                type: "string"
+              type: "array"
+        description: "Mandatory identifiers of Legal Entity inventories that should be linked against the Parent Legal Entity Inventory Object."
+        x-examples:
+          application/json:
+            - "3c8ffb1c-ef35-450e-9111-8dc742e92665"
+            - "c32ce504-f7c5-4b41-a9fa-1fdd1365db40"
+            - "44d8583a-00cb-4157-ba40-89ed25aad649"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema: {}
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Add Legal Entity Inventory as Child to Parent Inventory"
+      tags:
+        - "Inventory Hierarchies"
+  /inventory/v2/inventories/{parentInventoryId}/link-processing-activities:
+    post:
+      description: "Use this API to link an existing processing activity inventory as a child inventory to a parent processing activity inventory.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{parentInventoryId}/link-processing-activities`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/96214230-ffbb-4870-b6c4-0f30c3bfec60/link-processing-activities`"
+      operationId: "linkProcessingActivityInventoryToParentProcessingActivityIdUsingPOST"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget)."
+          in: "path"
+          name: "parentInventoryId"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                description: "ID of the Inventory to be Linked as Child Inventory to Parent Inventory."
+                example: "3c8ffb1c-ef35-450e-9111-8dc742e92665"
+                type: "string"
+              type: "array"
+        description: "Mandatory identifiers of Processing Activity inventories that should be linked against the Parent Processing Activity Inventory Object."
+        x-examples:
+          application/json:
+            - "3c8ffb1c-ef35-450e-9111-8dc742e92665"
+            - "c32ce504-f7c5-4b41-a9fa-1fdd1365db40"
+            - "44d8583a-00cb-4157-ba40-89ed25aad649"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema: {}
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Add Processing Activity Inventory as Child to Parent Inventory"
+      tags:
+        - "Inventory Hierarchies"
+  /inventory/v2/inventories/{parentInventoryId}/link-vendors:
+    post:
+      description: "Use this API to link an existing vendor inventory as a child inventory to a parent vendor inventory.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{parentInventoryId}/link-vendors`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/96214230-ffbb-4870-b6c4-0f30c3bfec60/link-vendors`"
+      operationId: "linkVendorInventoryToParentVendorIdUsingPOST"
+      parameters:
+        - description: "ID of the Parent Inventory object against which a new Child Inventory will be created. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget)."
+          in: "path"
+          name: "parentInventoryId"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                description: "ID of the Inventory to be Linked as Child Inventory to Parent Inventory."
+                example: "3c8ffb1c-ef35-450e-9111-8dc742e92665"
+                type: "string"
+              type: "array"
+        description: "Mandatory identifiers of Vendor inventories that should be linked against the Parent Vendor Inventory Object."
+        x-examples:
+          application/json:
+            - "3c8ffb1c-ef35-450e-9111-8dc742e92665"
+            - "c32ce504-f7c5-4b41-a9fa-1fdd1365db40"
+            - "44d8583a-00cb-4157-ba40-89ed25aad649"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema: {}
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Add Vendor Inventory as Child to Parent Inventory"
+      tags:
+        - "Inventory Hierarchies"
+  /inventory/v2/inventories/{type}:
+    get:
+      description: "Use this API to retrieve a paginated list of inventories for a given type.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/inventories/{type}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/inventories/vendors`"
+      operationId: "getListOfInventoriesUsingGET"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - description: "The result page to be returned."
+          in: "query"
+          name: "page"
+          required: false
+          schema:
+            type: "string"
+        - description: "The number of elements to be returned in a page. \n(Note: The maximum size value may differ by API and is subjected to change. If a number greater than the maximum is requested, the API will return the maximum allowed value.)"
+          in: "query"
+          name: "size"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InventoryListResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get List of Inventories"
+      tags:
+        - "Inventory"
+    post:
+      description: "Use this API to create an inventory of a particular `type`.  \n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{type}`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/vendors`"
+      operationId: "createInventoryUsingPOST"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateInventoryDto"
+        description: "Required information to create a new Inventory record."
+        required: true
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      summary: "Create Inventory"
+      tags:
+        - "Inventory"
+  /inventory/v2/inventories/{type}/criteria:
+    post:
+      description: "Use this API to retrieve the list of inventories for a given type by filter criteria.\n \n \n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{type}/criteria`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/vendors/criteria` "
+      operationId: "getListOfInventoriesByFilterCriteriaUsingPOST"
+      parameters:
+        - description: "The result page to be returned."
+          in: "query"
+          name: "page"
+          required: true
+          schema:
+            type: "string"
+        - description: "The number of elements to be returned in a page. \n(Note: The maximum size value may differ by API and is subjected to change. If a number greater than the maximum is requested, the API will return the maximum allowed value.)"
+          in: "query"
+          name: "size"
+          required: false
+          schema:
+            type: "string"
+        - $ref: "#/components/parameters/inventoryType"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventoryFilterRequest"
+        description: "Required information to filter list of inventories."
+        required: true
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      summary: "Get List of Inventories by Criteria"
+      tags:
+        - "Inventory"
+  /inventory/v2/inventories/{type}/reference/{externalId}:
+    get:
+      description: "Use this API to retrieve the inventory by external ID.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/inventories/{type}/reference/{externalId}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/inventories/vendors/reference/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "getInventoryByExternalIdUsingGET"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - description: "The external ID of the inventory record."
+          in: "path"
+          name: "externalId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Response"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Inventory by External ID"
+      tags:
+        - "Inventory"
+    put:
+      description: "Use this API to update the Inventory if already exists or create a new Inventory otherwise.\n\n### Example Request\n\n`PUT https://{hostname}/api/inventory/v2/inventories/{type}/reference/{externalId}`\n\n`PUT https://trial.onetrust.com/api/inventory/v2/inventories/vendors/reference/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "upsertInventoryUsingPUT"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - description: "The external ID of the inventory record."
+          in: "path"
+          name: "externalId"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpsertInventoryDto"
+        description: "Required information to create a new Inventory record or the relevant information to update an existing Inventory."
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Update Inventory by External ID"
+      tags:
+        - "Inventory"
+  /inventory/v2/inventories/{type}/{id}:
+    delete:
+      description: "Use this API to delete an Inventory record.\n\n### Example Request\n\n`DELETE https://{hostname}/api/inventory/v2/inventories/{type}/{id}`\n\n`DELETE https://trial.onetrust.com/api/inventory/v2/inventories/vendors/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "deleteInventoryUsingDELETE"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - $ref: "#/components/parameters/inventoryId"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Delete Inventory"
+      tags:
+        - "Inventory"
+    get:
+      description: "Use this API to retrieve the details of a specific inventory.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/inventories/{type}/{id}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/inventories/vendors/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "getInventoryByIdUsingGET"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - $ref: "#/components/parameters/inventoryId"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Inventory by ID"
+      tags:
+        - "Inventory"
+    put:
+      description: "Use this API to update the existing inventory. The body of the update request should contain a single object with fields in the same format as the output of the inventory detail endpoint. Only include the fields that need to be updated.\n\n### Example Request\n\n`PUT https://{hostname}/api/inventory/v2/inventories/{type}/{id}`\n\n`PUT https://trial.onetrust.com/api/inventory/v2/inventories/vendors/43fd3a8d-3f6b-464e-bf43-3f0c6c592442`"
+      operationId: "updateInventoryUsingPUT"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - $ref: "#/components/parameters/inventoryId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateInventoryDto"
+        description: "updateInventoryRequest"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Update Inventory by ID"
+      tags:
+        - "Inventory"
+  /inventory/v2/inventories/{type}/{id}/control-implementations:
+    post:
+      deprecated: false
+      description: "Use this API to create one or more control implementations on an inventory using the `type` and `id` for the inventory item and the id(s) of the master controls. When the operation is run unsuccessfully, this will return an exception.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/inventories/{type}/{id}/control-implementations`\n\n`POST https://trial.onetrust.com/api/inventory/v2/inventories/a8d2f0c6-63e5-476b-b600-79a447251a2a/control-implementations`"
+      operationId: "addControlsToInventoryUsingPOST"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - description: "The ID of the inventory. This can be obtained using the [Get List of Inventories by Filter Criteria](/onetrust/reference/getlistofinventoriesbyfiltercriteriausingpost) API."
+          in: "path"
+          name: "id"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventoryControlImplementationsRequest"
+        description: "Request with control details to be associated to entity and related control-entities"
+        required: true
+        x-examples:
+          application/json:
+            controlIds: "[7ae23c47-3658-48a5-95f6-4c6d3b376bd3, 3b496fba-0df0-48d6-bbb9-52b2cc7a6a22]"
+            status: "Implemented"
+      responses:
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+        - apikey: []
+      summary: "Create Control Implementation"
+      tags:
+        - "Inventory Relationships V1"
+  /inventory/v2/inventories/{type}/{id}/status:
+    put:
+      description: "Use this API to change the existing status of an inventory. \n\n### Example Request\n\n`PUT https://{hostname}/api/inventory/v2/inventories/inventories/{type}/{id}/status`\n\n`PUT https://trial.onetrust.com/api/inventory/v2/inventories/vendors/43fd3a8d-3f6b-464e-bf43-3f0c6c592442/status`"
+      operationId: "updateInventoryStatusByIdUsingPUT"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - $ref: "#/components/parameters/inventoryId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventoryStatusRequest"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Response"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Update Inventory Status"
+      tags:
+        - "Inventory"
+  /inventory/v2/inventory-hierarchies/{rootInventoryId}:
+    delete:
+      description: "Use this API to unlink a Child Inventory from a Root Inventory.\n\n### Example Request\n\n`DELETE https://{hostname}/api/inventory/v2/inventory-hierarchies/{rootInventoryId}`\n\n`DELETE https://trial.onetrust.com/api/inventory/v2/inventory-hierarchies/96214230-ffbb-4870-b6c4-0f30c3bfec60?inventoryType=assets&childInventoryId=6ed251ca-969a-486f-a645-e5fc3c709f55`"
+      operationId: "unlinkChildInventoryFromHierarchyUsingDELETE"
+      parameters:
+        - description: "ID of the root inventory. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "rootInventoryId"
+          required: true
+          schema:
+            type: "string"
+        - description: "ID of the child inventory. The value can be retrieved using the [Get List of Inventories API](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "query"
+          name: "childInventoryId"
+          required: true
+          schema:
+            type: "string"
+        - description: "Type of inventory. The supported values are ['assets','processing-activities','vendors','legal-entities']."
+          in: "query"
+          name: "inventoryType"
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "processing-activities"
+              - "assets"
+              - "entities"
+              - "vendors"
+      responses:
+        204:
+          description: "No Content"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      security:
+        - oauth2:
+            - "INVENTORY_WRITE"
+      summary: "Remove Child Inventory from Root Inventory"
+      tags:
+        - "Inventory Hierarchies"
+    get:
+      description: "Use this API to provide a paginated list of Child Inventories for a given Inventory Schema Type and a Root Inventory Id.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/inventory-hierarchies/{rootInventoryId}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/inventory-hierarchies/96214230-ffbb-4870-b6c4-0f30c3bfec60?inventoryType=assets`"
+      operationId: "getHierarchyForInventoryIdUsingGET"
+      parameters:
+        - description: "ID of the root inventory. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+          in: "path"
+          name: "rootInventoryId"
+          required: true
+          schema:
+            type: "string"
+        - description: "Type of the inventory. The supported values are ['assets','processing-activities','vendors','legal-entities']."
+          in: "query"
+          name: "inventoryType"
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "processing-activities"
+              - "assets"
+              - "entities"
+              - "vendors"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      properties:
+                        createdBy:
+                          properties:
+                            id:
+                              description: "ID of User who created this Child Inventory."
+                              example: "0d0a3571-2f3b-40b1-8e2f-47dc1bd3bf78"
+                              type: "string"
+                          type: "object"
+                        createdDate:
+                          description: "Creation Time and Date of Child Inventory."
+                          example: "2021-09-28T17:41:45.403Z"
+                          type: "string"
+                        id:
+                          description: "ID of the Child Inventory."
+                          example: "c4bee781-912b-4328-8851-6f906afd7ccb"
+                          type: "string"
+                        inheritFromMaster:
+                          description: "Is Child Inventory inherited from the Root Parent Inventory or not."
+                          example: false
+                          type: "boolean"
+                        isEditable:
+                          description: "Is Child Inventory editable by default or not."
+                          example: true
+                          type: "boolean"
+                        isParent:
+                          description: "Is Child Inventory the Root Parent Inventory or not."
+                          example: false
+                          type: "boolean"
+                        location:
+                          properties:
+                            id:
+                              description: "ID of the Location."
+                              example: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+                              type: "string"
+                            value:
+                              description: "Name of the Location."
+                              example: "Algeria"
+                              type: "string"
+                            valueKey:
+                              description: "Value Key of the Location."
+                              example: "Algeria"
+                              type: "string"
+                          type: "object"
+                        masterRecord:
+                          description: "Title of Root Parent Inventory."
+                          example: "Root Parent Record | zentrust | Algeria"
+                          type: "string"
+                        name:
+                          description: "Name of the Child Inventory."
+                          example: "Child Record 1"
+                          type: "string"
+                        number:
+                          description: "Number of Child Inventory."
+                          example: 78
+                          type: "integer"
+                        organization:
+                          properties:
+                            id:
+                              description: "ID of the Tenant Organization."
+                              example: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+                              type: "string"
+                            value:
+                              description: "Name of the Tenant Organization."
+                              example: "zentrust"
+                              type: "string"
+                          type: "object"
+                        parentInventoryId:
+                          description: "ID of the Root Parent Inventory."
+                          example: "96214230-ffbb-4870-b6c4-0f30c3bfec60"
+                          type: "string"
+                        status:
+                          properties:
+                            key:
+                              description: "Status of the Child Inventory."
+                              example: "active"
+                              type: "string"
+                          type: "object"
+                        updatedBy:
+                          properties:
+                            id:
+                              description: "ID of User who updated this Child Inventory."
+                              example: "0d0a3571-2f3b-40b1-8e2f-47dc1bd3bf78"
+                              type: "string"
+                          type: "object"
+                        updatedDate:
+                          description: "Update Time and Date of Child Inventory."
+                          example: "2021-09-28T17:41:45.403Z"
+                          type: "string"
+                      type: "object"
+                    type: "array"
+                type: "object"
+              examples:
+                response:
+                  value:
+                    data:
+                      - createdBy:
+                          id: "0d0a3571-2f3b-40b1-8e2f-47dc1bd3bf78"
+                        createdDate: "2021-09-28T17:41:45.403Z"
+                        id: "c4bee781-912b-4328-8851-6f906afd7ccb"
+                        inheritFromMaster: true
+                        isEditable: true
+                        isParent: false
+                        location:
+                          id: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+                          value: "Algeria"
+                          valueKey: "Algeria"
+                        masterRecord: "Root Parent Record | zentrust | Algeria"
+                        name: "Child Record 1"
+                        number: 78
+                        organization:
+                          id: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+                          value: "zentrust"
+                        parentInventoryId: "96214230-ffbb-4870-b6c4-0f30c3bfec60"
+                        status:
+                          key: "active"
+                        updatedBy:
+                          id: "0d0a3571-2f3b-40b1-8e2f-47dc1bd3bf78"
+                        updatedDate: "2021-09-28T17:41:45.457Z"
+                      - createdBy:
+                          id: "0d0a3571-2f3b-40b1-8e2f-47dc1bd3bf78"
+                        createdDate: "2021-09-28T17:43:02.867Z"
+                        id: "e86e4503-3087-4537-87dc-7c4ea72949ef"
+                        inheritFromMaster: true
+                        isEditable: true
+                        isParent: false
+                        location:
+                          id: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+                          value: "Algeria"
+                          valueKey: "Algeria"
+                        masterRecord: "Root Parent Record | zentrust | Algeria"
+                        name: "Child Record 2"
+                        number: 79
+                        organization:
+                          id: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+                          value: "zentrust"
+                        parentInventoryId: "96214230-ffbb-4870-b6c4-0f30c3bfec60"
+                        status:
+                          key: "active"
+                        updatedBy:
+                          id: "0d0a3571-2f3b-40b1-8e2f-47dc1bd3bf78"
+                        updatedDate: "2021-09-28T17:43:02.930Z"
+                      - createdBy:
+                          id: "0d0a3571-2f3b-40b1-8e2f-47dc1bd3bf78"
+                        createdDate: "2021-09-28T17:43:09.530Z"
+                        id: "76cacdcc-6d98-4e92-a8f2-2282676aabdc"
+                        inheritFromMaster: true
+                        isEditable: true
+                        isParent: false
+                        location:
+                          id: "a8dce0d6-1e27-4f92-a522-61f2142b31be"
+                          value: "Algeria"
+                          valueKey: "Algeria"
+                        masterRecord: "Root Parent Record | zentrust | Algeria"
+                        name: "Child Record 3"
+                        number: 80
+                        organization:
+                          id: "03d3c0cf-cbcd-4640-84cf-208538b9ca3f"
+                          value: "zentrust"
+                        parentInventoryId: "96214230-ffbb-4870-b6c4-0f30c3bfec60"
+                        status:
+                          key: "active"
+                        updatedBy:
+                          id: "0d0a3571-2f3b-40b1-8e2f-47dc1bd3bf78"
+                        updatedDate: "2021-09-28T17:43:09.563Z"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema: {}
+            text/plain:
+              examples:
+                response:
+                  value: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      security:
+        - oauth2:
+            - "INVENTORY_READ"
+      summary: "Get List of Child Inventories by Root Inventory"
+      tags:
+        - "Inventory Hierarchies"
+  /inventory/v2/schemas:
+    get:
+      description: "Use this API to retrieve the list of schemas.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/schemas`\n\n`GET https://trial.onetrust.com/api/inventory/v2/schemas`"
+      operationId: "getSchemasUsingGET_1"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/SchemaSummaryDto"
+                type: "array"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get List of Inventory Schemas"
+      tags:
+        - "Inventory Schema"
+  /inventory/v2/schemas/attributes/{attributeId}/values/{valueId}:
+    get:
+      description: "Use this API to support the editing of attribute option names.\n\n### Example Request\n\n`PUT https://{hostname}/api/inventory/v2/api/inventory/v2/schemas/attributes/{attributeId}/values/{valueId}`\n\n`PUT https://trial.onetrust.com/api/inventory/v2/schemas/attributes/bcb8c972-cd10-4c2a-9289-44f8cc78ac03/values/98ec8ebc-90e7-4c3e-869f-cb1b1506222c`      "
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: "object"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Attribute Options"
+      tags:
+        - "Inventory"
+    parameters:
+      - description: "ID of an attribute. The value can be obtained using the [Get Inventory Schema](/onetrust/reference/getschemausingget_1) API."
+        in: "path"
+        name: "attributeId"
+        required: true
+        schema:
+          type: "string"
+      - description: "ID of a value. The value is obtained using the [Get Inventory Schema Details](/onetrust/reference/getschemadetailsusingfieldname) API."
+        in: "path"
+        name: "valueId"
+        required: true
+        schema:
+          type: "string"
+    put:
+      deprecated: false
+      description: "Use this API to manage attribute options in the assessment questions and inventories.\n\n### Additional Information\n\n* This API supports deactivating/activating attribute options.\n* This API can also be used for editing option names.\n\n### Example Request\n\n`PUT https://{hostname}/api/inventory/v2/schemas/attributes/{attributeId}/values/{valueId}`\n\n`PUT https://trial.onetrust.com/api/inventory/v2/schemas/attributes/bcb8c972-cd10-4c2a-9289-44f8cc78ac03/values/91e37a36-ca61-499b-b3c3-7d556aef5cde`"
+      operationId: "manageAttributeOptions"
+      parameters:
+        - description: "ID of an attribute. The value can be obtained using the [Get Schema by ID](/onetrust/reference/getschemausingget_1) API.\n\nExample: bcb8c972-cd10-4c2a-9289-44f8cc78ac03"
+          in: "path"
+          name: "attributeId"
+          required: true
+          schema:
+            type: "string"
+        - description: "ID of a value. The value is obtained using the [Get Schema Details by Field Name](/onetrust/reference/getschemadetailsusingfieldname) API.\n\nExample: 91e37a36-ca61-499b-b3c3-7d556aef5cde"
+          in: "path"
+          name: "valueId"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                status:
+                  description: "Enable or disable the status of the attribute option."
+                  enum:
+                    - "enabled"
+                    - "disabled"
+                  example: "enabled"
+                  type: "string"
+                value:
+                  description: "Value is the name of the attribute option."
+                  example: "Database"
+                  type: "string"
+              required:
+                - "value"
+                - "status"
+              type: "object"
+        description: "Request body for deactivation/activation and editing the name of Attribute Options.\n\n"
+        required: true
+        x-examples:
+          Example 1:
+            status: "disabled"
+            value: "Database"
+          Example 2: "{\n  \"value\": \"Database\",\n  \"status\": \"enabled\"\n}"
+      responses:
+        200:
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: "ID of the attribute option that is being updated."
+                    example: "c52d2f37-ae48-439c-8bc8-d5a73f4fa331"
+                    type: "string"
+                  seeded:
+                    description: "Is the attribute option a custom or seeded option by default."
+                    example: true
+                    type: "boolean"
+                  status:
+                    description: "Status of the attribute option to show if it is visible or not. in the selection."
+                    example: "enabled"
+                    type: "string"
+                  value:
+                    description: "Name of the attribute option being updated."
+                    example: "Consent of the individual"
+                    type: "string"
+                  valueKey:
+                    description: "Value key of the attribute option that is being updated."
+                    example: "ProcessingActivitiesLegalBasesConsentoftheindividual"
+                    type: "string"
+                required:
+                  - "id"
+                  - "value"
+                  - "valueKey"
+                  - "status"
+                  - "seeded"
+                type: "object"
+              examples:
+                response:
+                  value:
+                    id: "91e37a36-ca61-499b-b3c3-7d556aef5cde"
+                    seeded: false
+                    status: "disabled"
+                    value: "Database"
+                    valueKey: "91e37a36-ca61-499b-b3c3-7d556aef5cde"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: "string"
+                  seeded:
+                    type: "boolean"
+                  status:
+                    type: "string"
+                  value:
+                    type: "string"
+                  valueKey:
+                    type: "string"
+                required:
+                  - "id"
+                  - "value"
+                  - "valueKey"
+                  - "status"
+                  - "seeded"
+                type: "object"
+              examples:
+                response:
+                  value:
+                    id: "91e37a36-ca61-499b-b3c3-7d556aef5cde"
+                    seeded: false
+                    status: "disabled"
+                    value: "Database"
+                    valueKey: "91e37a36-ca61-499b-b3c3-7d556aef5cde"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      security:
+        - oauth2:
+            - "INVENTORY_READ"
+            - "INVENTORY_WRITE"
+        - apikey: []
+      summary: "Manage Attribute Options"
+      tags:
+        - "Inventory"
+  /inventory/v2/schemas/attributes/{id}/values/bulk/:
+    post:
+      description: "Use this API to create attribute values for an attribute.\n\nNote : This API only supports the creation of attribute options for the attributes with single/multi select response type and non user/location/date attribute type.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/schemas/attributes/{id}/values/bulk/`\n\n`POST https://trial.onetrust.com/api/inventory/v2/schemas/attributes/43fd3a8d-3f6b-464e-bf43-3f0c6c592442/values/bulk/`"
+      operationId: "createAttributeValuesForAnAttribute"
+      parameters:
+        - $ref: "#/components/parameters/attributeId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListAttributeValueCreateRequest"
+        description: "Request body for creating an attribute value"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListAttributeValueResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Create Attribute Values"
+      tags:
+        - "Inventory Schema"
+  /inventory/v2/schemas/{type}:
+    get:
+      description: "Use this API to retrieve the details of a specific schema.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/schemas/{type}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/schemas/processing-activities`      "
+      operationId: "getSchemaUsingGET_1"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - description: "The parameter to show all the details of the schema."
+          in: "query"
+          name: "showAll"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AttributeResponse"
+                type: "array"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Inventory Schema"
+      tags:
+        - "Inventory Schema"
+  /inventory/v2/schemas/{type}/attributes/:
+    post:
+      description: "Use this API to create an attribute for the inventory schema.\n\n### Example Request\n\n`POST https://{hostname}/api/inventory/v2/schemas/{type}/attributes/`\n\n`POST https://trial.onetrust.com/api/inventory/v2/schemas/vendors/attributes/`        "
+      operationId: "createAttributeForTheInventorySchema"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttributeCreateRequest"
+        description: "Request body for creating an attribute"
+        required: true
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributeResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+      summary: "Create Attribute"
+      tags:
+        - "Inventory Schema"
+  /inventory/v2/schemas/{type}/attributes/activate:
+    put:
+      description: "Use this API to activate attributes by field names. \n\n### Example Request\n\n`PUT https://{hostname}/api/inventory/v2/schemas/{type}/attributes/activate`\n\n`PUT https://trial.onetrust.com/api/inventory/v2/schemas/vendors/attributes/activate`      "
+      operationId: "activateAttributesByFieldNames"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkAttributeStatusUpdateRequest"
+        description: "Request body for activating attributes"
+        required: true
+      responses:
+        200:
+          description: "OK"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Activate Attribute Values"
+      tags:
+        - "Inventory Schema"
+  /inventory/v2/schemas/{type}/attributes/deactivate:
+    put:
+      description: "Use this API to deactivate attributes by field names. \n\n### Example Request\n\n`PUT https://{hostname}/api/inventory/v2/schemas/{type}/attributes/deactivate`\n\n`PUT https://trial.onetrust.com/api/inventory/v2/schemas/vendors/attributes/deactivate`        "
+      operationId: "deactivateAttributesByFieldNames"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkAttributeStatusUpdateRequest"
+        description: "Request body for deactivating attributes"
+        required: true
+      responses:
+        200:
+          description: "OK"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Deactivate Attribute Values"
+      tags:
+        - "Inventory Schema"
+  /inventory/v2/schemas/{type}/attributes/{fieldName}:
+    get:
+      description: "Use this API to retrieve the schema details by field name.\n\n### Example Request\n\n`GET https://{hostname}/api/inventory/v2/schemas/{type}/attributes/{fieldName}`\n\n`GET https://trial.onetrust.com/api/inventory/v2/schemas/vendors/attributes/test`        "
+      operationId: "getSchemaDetailsUsingFieldName"
+      parameters:
+        - $ref: "#/components/parameters/inventoryType"
+        - description: "Name of the field used to retrive the schema details."
+          in: "path"
+          name: "fieldName"
+          required: true
+          schema:
+            type: "string"
+        - description: "The parameter to show all the details of the schema."
+          in: "query"
+          name: "showAll"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributeDetailResponse"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+        429:
+          description: "Too Many Requests\nFor more information, see [API Rate Limits](https://developer.onetrust.com/onetrust/reference/rate-limits-overview)."
+          headers:
+            Retry-After:
+              description: "The number of seconds after which requests will be allowed again."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-period:
+              description: "The unit of time for which the rate limit applies."
+              schema:
+                type: "string"
+                enum:
+                  - "HOUR"
+                  - "MINUTE"
+            ot-ratelimit-event-id:
+              description: "The unique identifier for the rate-limiting event."
+              schema:
+                type: "string"
+                format: "uuid"
+            ot-request-made:
+              description: "The number of requests made within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+            ot-requests-allowed:
+              description: "The number of requests allowed within the specified period."
+              schema:
+                type: "integer"
+                format: "int32"
+      summary: "Get Inventory Schema Details"
+      tags:
+        - "Inventory Schema"
+security:
+  - oauth2: []
+tags:
+  - name: "Inventory"
+  - name: "Inventory Hierarchies"
+  - name: "Inventory Relationships V1"
+  - name: "Inventory Relationships V2"
+  - name: "Inventory Schema"
+  - name: "Personal Data"
+x-onetrust:
+  links:
+    Data Mapping Automation Knowledge Base: "https://my.onetrust.com/s/topic/0TO1Q000000ItRxWAK/data-mapping"
+  spec-label: "Swagger 2"
+x-readme:
+  explorer-enabled: false
+  proxy-enabled: false
+servers:
+  - url: "https://uat.onetrust.com/api"
+components:
+  parameters:
+    attributeId:
+      description: "ID of an attribute. The value is obtained using [Get Inventory Schema](/onetrust/reference/getschemausingget_1) API."
+      in: "path"
+      name: "id"
+      required: true
+      schema:
+        type: "string"
+    inventoryId:
+      description: "ID of an inventory. The value is obtained using [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget) API."
+      in: "path"
+      name: "id"
+      required: true
+      schema:
+        type: "string"
+    inventoryType:
+      description: "Type of the inventory or schema. The supporting types as are 'processing-activities',  'vendors',  'assets', and 'entities'."
+      in: "path"
+      name: "type"
+      required: true
+      schema:
+        type: "string"
+  securitySchemes:
+    oauth2:
+      type: "oauth2"
+      flows:
+        clientCredentials:
+          tokenUrl: "https://{$$.env.host}/api/access/v1/oauth/token"
+          scopes:
+            INVENTORY_READ: "Read inventory records"
+            INVENTORY_WRITE: "Create and delete inventory records"
+  schemas:
+    AttributeCreateRequest:
+      properties:
+        allowOther:
+          description: "If this parameter is set to true, then while answering that attribute for an inventory, the user will be able to specify a value which is not present in the list of attribute values currently available for that attribute. The new user specified value will be created as an 'Inactive' attribute value for that attribute. \n If it is set to false, then while answering that attribute for an inventory, the user is restricted to choose only from the list of currently available attribute values for that attribute. \n\n Note : This field is only available for single select and multi select attributes."
+          enum:
+            - "true"
+            - "false"
+          type: "boolean"
+        attributeType:
+          description: "Type of the attribute. \n\n Allowed values for response type: \n \\u003Cbr/\\u003E **single-select** : locations, users, custom attributes options created though attribute options API \n **multi-select** : locations, custom attributes options created though attribute options API \n **date** : none \n **text** : none"
+          enum:
+            - "none"
+            - "locations"
+            - "users"
+          type: "string"
+        description:
+          description: "Description of the attribute to be created."
+          example: "Source from where data is collected"
+          type: "string"
+        name:
+          description: "Name of the attribute to be created."
+          example: "Data Source"
+          type: "string"
+        responseType:
+          description: "Type of the attribute response."
+          enum:
+            - "single-select"
+            - "multi-select"
+            - "text"
+            - "date"
+          type: "string"
+        trackedAtRelatedInventoryType:
+          description: "Set this field type to 'personal-data' while creating an inventory attribute to track details at the inventory-personal data link level . By default, when the flag is not set to 'personal-data', the attribute created will track details at the inventory level. \n\n Note: Tracking at link level is only available for assets and processing activities inventory types."
+          enum:
+            - "personal-data"
+          type: "string"
+      required:
+        - "name"
+        - "description"
+        - "responseType"
+      title: "AttributeCreateRequest"
+      type: "object"
+    AttributeDetailResponse:
+      additionalProperties: false
+      allOf:
+        - $ref: "#/components/schemas/AttributeResponse"
+      properties:
+        allowOther:
+          type: "boolean"
+        values:
+          items:
+            $ref: "#/components/schemas/AttributeValueResponse"
+          type: "array"
+      title: "AttributeDetailResponse"
+      type: "object"
+    AttributeResponse:
+      properties:
+        attributeType:
+          type: "string"
+        description:
+          type: "string"
+        descriptionKey:
+          type: "string"
+        fieldName:
+          type: "string"
+        id:
+          type: "string"
+        name:
+          type: "string"
+        nameKey:
+          type: "string"
+        required:
+          type: "boolean"
+        responseType:
+          type: "string"
+        status:
+          type: "string"
+      title: "AttributeResponse"
+      type: "object"
+    AttributeValueCreateRequest:
+      properties:
+        selectionValue:
+          description: "Attribute selection value and it is mandatory if the numeric value is not distinct for Numerical Single Select attribute."
+          example: "Internal"
+          type: "string"
+        value:
+          description: "Name of the attribute value to be created."
+          example: "Internal"
+          type: "string"
+      title: "AttributeValueCreateRequest"
+      type: "object"
+    AttributeValueResponse:
+      properties:
+        id:
+          type: "string"
+        seeded:
+          type: "boolean"
+        status:
+          type: "string"
+        value:
+          type: "string"
+        valueKey:
+          type: "string"
+      title: "AttributeValueResponse"
+      type: "object"
+    AttributeValueUpdateRequest:
+      properties:
+        selectionValue:
+          description: "Attribute selection value and it is mandatory if the numeric value is not distinct for Numerical Single Select attribute."
+          example: "Internal"
+          type: "string"
+        value:
+          description: "Deactivation/activation of Attribute Options"
+          example: "Internal"
+          type: "string"
+      title: "AttributeValueUpdateRequest"
+      type: "object"
+    BaseInventoryAssociationDto:
+      properties:
+        inventoryAssociationId:
+          type: "string"
+        inventoryId:
+          type: "string"
+      type: "object"
+    BasicEntityIdAndName:
+      properties:
+        id:
+          example: "d95f99dd-07a1-4f28-9711-c1ae590dbb46"
+          type: "string"
+        name:
+          example: "assets, processing-activities, vendors, entities, data-elements, data-subjects"
+          type: "string"
+      required:
+        - "id"
+        - "name"
+      title: "BasicEntityIdAndName"
+      type: "object"
+    BulkAttributeStatusUpdateRequest:
+      properties:
+        fieldNames:
+          items:
+            description: "List of field names of attributes."
+            example: "dataRetention"
+            type: "string"
+          type: "array"
+      type: "object"
+    ContextualLinkUpdateRequest:
+      properties:
+        attributes:
+          description: "Custom Attributes based on schema defined for given link type"
+          example:
+            attributeSingleSelectValue.value1:
+              - id: "2a3ce43a-43b6-46ef-838e-995f9a46ec69"
+                value: "0.1"
+            attributeTextValue.value1:
+              - value: "Test Value"
+          type: "object"
+        processingActivityId:
+          description: "GUID of the context processing activity"
+          example: "84cda4e6-4de1-4835-9dfd-46f88deb11c3"
+          type: "string"
+      title: "ContextualLinkUpdateRequest"
+      type: "object"
+    CreateAssetDto:
+      properties:
+        location:
+          $ref: "#/components/schemas/InventoryValue"
+        name:
+          type: "string"
+        organization:
+          $ref: "#/components/schemas/InventoryValue"
+      title: "CreateAssetDto"
+      type: "object"
+    CreateEntityDto:
+      properties:
+        name:
+          type: "string"
+        organization:
+          $ref: "#/components/schemas/InventoryValue"
+        primaryOperatingLocation:
+          $ref: "#/components/schemas/InventoryValue"
+      title: "CreateEntityDto"
+      type: "object"
+    CreateInventoryDto:
+      properties:
+        exampleMultiSelectField:
+          items:
+            $ref: "#/components/schemas/InventoryValue"
+          type: "array"
+        exampleSingleSelectField:
+          items:
+            $ref: "#/components/schemas/InventoryValue"
+          type: "array"
+        location:
+          $ref: "#/components/schemas/InventoryValue"
+        name:
+          type: "string"
+        organization:
+          $ref: "#/components/schemas/InventoryValue"
+        type:
+          properties:
+            id:
+              format: "uuid"
+              type: "string"
+            value:
+              type: "string"
+          type: "object"
+      title: "CreateInventoryDto"
+      type: "object"
+    CreatePaDto:
+      properties:
+        name:
+          type: "string"
+        organization:
+          $ref: "#/components/schemas/InventoryValue"
+      title: "CreatePaDto"
+      type: "object"
+    CreateVendorDto:
+      properties:
+        name:
+          type: "string"
+        organization:
+          $ref: "#/components/schemas/InventoryValue"
+        type:
+          $ref: "#/components/schemas/InventoryValue"
+      title: "CreateVendorDto"
+      type: "object"
+    CriteriaDefinition:
+      properties:
+        attributeKey:
+          description: "To filter by attribute fields, key needs to be the fieldName of an attribute (the fieldName of an attribute can be obtained from Get Schema by ID API). To filter by personal data fields, keys can be PersonalData-dataElement, PersonalData-dataSubjectType, PersonalData-dataCategory, PersonalData-dataClassifications.\n Note: Name and Date attributes other than Created Date and Last Updated Date are not supported."
+          example: "organization or PersonalData-dataSubjectType or createdDate"
+          type: "string"
+        operator:
+          description: "Operator used on attribute key and value to filter inventories. \n Note: IN_BETWEEN is used only for Created Date and Last Updated Date attributes."
+          enum:
+            - "EQ"
+            - "IN_BETWEEN"
+          example: "EQ or IN_BETWEEN"
+          type: "string"
+        values:
+          items:
+            description: "Values of the Attribute Key which will be used in filtering."
+            example: "OrganizationName or Employees or {fromDateValue:2019-12-22, toDateValue:2020-01-28}"
+            type: "string"
+          type: "array"
+      required:
+        - "attributeKey"
+        - "operator"
+        - "values"
+      title: "CriteriaDefinition"
+      type: "object"
+    DataCategoryCreateUpdateRequest:
+      properties:
+        description:
+          type: "string"
+        value:
+          type: "string"
+      title: "DataCategoryCreateUpdateRequest"
+      type: "object"
+    DataCategoryResponse:
+      properties:
+        description:
+          description: "Description of the Data Category."
+          example: "Academic Background"
+          type: "string"
+        descriptionKey:
+          description: "Unique key for description of the Data Category."
+          example: "DataCategoriesAcademicBackgroundDesc"
+          type: "string"
+        id:
+          description: "Unique Id for the Data Category."
+          example: "43fd3a8d-3f6b-464e-bf43-3f0c6c592442"
+          type: "string"
+        name:
+          description: "Name of the Data Category."
+          example: "Academic Background"
+          type: "string"
+        nameKey:
+          description: "Unique key for name of the Data Category."
+          example: "DataCategoriesAcademicBackground"
+          type: "string"
+      title: "DataCategoryResponse"
+      type: "object"
+    DataClassificationCreateUpdateRequest:
+      properties:
+        description:
+          type: "string"
+        value:
+          type: "string"
+      title: "DataClassificationCreateUpdateRequest"
+      type: "object"
+    DataClassificationResponse:
+      properties:
+        description:
+          description: "Description of the Data Classification."
+          example: "Personal Data"
+          type: "string"
+        descriptionKey:
+          description: "Unique key for description of the Data Classification."
+          example: "DataClassificationsPersonalDataDesc"
+          type: "string"
+        id:
+          description: "Unique Id of the Data Classification."
+          example: "9fad637c-8548-438e-9a6f-6e38eb2692de"
+          type: "string"
+        name:
+          description: "Name of the Data Classification."
+          example: "Personal Data"
+          type: "string"
+        nameKey:
+          description: "Unique key for the name of the Data Classification."
+          example: "DataClassificationsPersonalData"
+          type: "string"
+      title: "DataClassificationResponse"
+      type: "object"
+    DataElementCreateRequest:
+      properties:
+        categories:
+          items:
+            $ref: "#/components/schemas/ObjectReference"
+          type: "array"
+        classifications:
+          items:
+            $ref: "#/components/schemas/ObjectReference"
+          type: "array"
+        description:
+          type: "string"
+        value:
+          type: "string"
+      title: "DataElementCreateRequest"
+      type: "object"
+    DataElementDetailedResponse:
+      properties:
+        categories:
+          items:
+            $ref: "#/components/schemas/DataCategoryResponse"
+          type: "array"
+        classifications:
+          items:
+            $ref: "#/components/schemas/DataClassificationResponse"
+          type: "array"
+        description:
+          description: "Description of the Data Element."
+          example: "Age"
+          type: "string"
+        descriptionKey:
+          description: "Unique key for description of the Data Element."
+          example: "DataElementsAgeDesc"
+          type: "string"
+        id:
+          description: "Unique Id of the Data Element."
+          example: "54432905-eac2-4088-a48e-c02b0d66359b"
+          type: "string"
+        name:
+          description: "Name of the Data Element."
+          example: "Age"
+          type: "string"
+        nameKey:
+          description: "Unique key for the name of the Data Element."
+          example: "DataElementsAge"
+          type: "string"
+      title: "DataElementDetailedResponse"
+      type: "object"
+    DataElementResponse:
+      properties:
+        description:
+          type: "string"
+        descriptionKey:
+          type: "string"
+        id:
+          type: "string"
+        name:
+          type: "string"
+        nameKey:
+          type: "string"
+      title: "DataElementResponse"
+      type: "object"
+    DataSubjectCreateUpdateRequest:
+      properties:
+        description:
+          type: "string"
+        value:
+          type: "string"
+      title: "DataSubjectCreateUpdateRequest"
+      type: "object"
+    DataSubjectResponse:
+      properties:
+        description:
+          description: "Description of the Data Subject."
+          example: "Contractors"
+          type: "string"
+        descriptionKey:
+          description: "Unique key for description of the Data Subject."
+          example: "DataSubjectContractorsDesc"
+          type: "string"
+        id:
+          description: "Unique Id of the Data Subject."
+          example: "a77f2bdb-5bce-467a-b943-16895f38c296"
+          type: "string"
+        name:
+          description: "Name of the Data Subject."
+          example: "Contractors"
+          type: "string"
+        nameKey:
+          description: "Unique key for the name of the Data Subject."
+          example: "DataSubjectContractors"
+          type: "string"
+      title: "DataSubjectResponse"
+      type: "object"
+    EntityIdAndType:
+      properties:
+        id:
+          description: "UUID"
+          example: "d95f99dd-07a1-4f28-9711-c1ae590dbb46"
+          type: "string"
+        type:
+          example: "assets, processing-activities, vendors, entities, data-elements, data-subjects"
+          type: "string"
+      required:
+        - "id"
+        - "type"
+      title: "EntityIdAndType"
+      type: "object"
+    Error:
+      properties:
+        code:
+          type: "string"
+        detail:
+          type: "string"
+        source:
+          $ref: "#/components/schemas/ErrorSource"
+        title:
+          type: "string"
+      title: "Error"
+      type: "object"
+    ErrorSource:
+      properties:
+        parameter:
+          type: "string"
+        pointer:
+          type: "string"
+      title: "ErrorSource"
+      type: "object"
+    InventoryAssociationCreateRequest:
+      properties:
+        id:
+          description: "ID of the inventory. The value can be retrieved using the [Get List of Inventories](/onetrust/reference/getlistofinventoriesusingget)."
+          type: "string"
+        relation:
+          description: "Relationship type"
+          enum:
+            - "RelatedLinkType"
+            - "SubProcessorLinkType"
+            - "StorageProcessingLinkType"
+            - "JointControllerLinkType"
+            - "DestinationAccessLinkType"
+            - "RecipientOfSaleLinkType"
+            - "ControllerLinkType"
+            - "ProcessorLinkType"
+            - "ProductOrServiceProviderLinkType"
+            - "SourceCollectionLinkType"
+          type: "string"
+      required:
+        - "id"
+      title: "InventoryAssociationCreateRequest"
+      type: "object"
+    InventoryAssociationRemoveRequest:
+      properties:
+        inventoryAssociationId:
+          type: "string"
+      type: "object"
+    InventoryAssociationRequest:
+      properties:
+        relation:
+          description: "Relationship type"
+          enum:
+            - "RelatedLinkType"
+            - "SubProcessorLinkType"
+            - "StorageProcessingLinkType"
+            - "JointControllerLinkType"
+            - "DestinationAccessLinkType"
+            - "RecipientOfSaleLinkType"
+            - "ControllerLinkType"
+            - "ProcessorLinkType"
+            - "ProductOrServiceProviderLinkType"
+            - "SourceCollectionLinkType"
+          type: "string"
+      required:
+        - "relation"
+      title: "InventoryAssociationRequest"
+      type: "object"
+    InventoryAttachmentRequest:
+      properties:
+        attachmentId:
+          description: "GUID of the uploaded document. This value is obtained from the response ('Id' parameter) of [Upload File](/onetrust/reference/fileupload) API."
+          example: "d95f99dd-07a1-4f28-9711-c1ae590dbb46"
+          type: "string"
+        description:
+          description: "Detailed explanation about the attachment."
+          type: "string"
+      required:
+        - "attachmentId"
+      title: "InventoryAttachmentRequest"
+      type: "object"
+    InventoryControlImplementationsRequest:
+      description: "Defines details of a Control to be added to Inventory."
+      properties:
+        controlIds:
+          description: "GUID of controls which are being implemented for given entity."
+          example: "[7ae23c47-3658-48a5-95f6-4c6d3b376bd3, 3b496fba-0df0-48d6-bbb9-52b2cc7a6a22]"
+          items:
+            format: "uuid"
+            type: "string"
+          type: "array"
+        status:
+          description: "Status of Control which are being implemented for given entity. Defaulted to Pending."
+          enum:
+            - "Pending"
+            - "Implemented"
+            - "NotDoing"
+            - "Suggested"
+          example: "Implemented"
+          type: "string"
+      required:
+        - "controlIds"
+      title: "InventoryControlImplementationsRequest"
+      type: "object"
+    InventoryFilterRequest:
+      properties:
+        filters:
+          items:
+            $ref: "#/components/schemas/CriteriaDefinition"
+          type: "array"
+      title: "InventoryFilterRequest"
+      type: "object"
+    InventoryListResponse:
+      properties:
+        data:
+          description: "Inventory object's keys and values may vary by inventory-type."
+          items:
+            properties:
+              id:
+                type: "string"
+              name:
+                type: "string"
+              organization:
+                properties:
+                  id:
+                    type: "string"
+                  value:
+                    type: "string"
+          type: "array"
+        meta:
+          properties:
+            page:
+              properties:
+                number:
+                  type: "string"
+                size:
+                  type: "string"
+                totalElements:
+                  type: "string"
+                totalPages:
+                  type: "string"
+              type: "object"
+          type: "object"
+      type: "object"
+    InventoryStatusRequest:
+      properties:
+        key:
+          enum:
+            - "pending"
+            - "active"
+            - "archived"
+          type: "string"
+      title: "InventoryStatusRequest"
+      type: "object"
+    InventoryValue:
+      properties:
+        id:
+          type: "string"
+        selectionValue:
+          description: "Attribute selection value and it is mandatory if the numeric value is not distinct for Numerical Single Select attribute."
+          type: "string"
+        value:
+          type: "string"
+      title: "InventoryValue"
+      type: "object"
+    LinkRequestDto:
+      properties:
+        attributes:
+          description: "Custom Attributes based on schema defined for given link type"
+          example:
+            attributeTextValue.value1:
+              - value: "Test Value"
+          type: "object"
+        contextProcess:
+          description: "Associated Context Processing Activity"
+          example:
+            id: "d95f99dd-07a1-4f28-9711-c1ae590dbb46"
+            name: "PA1"
+          type: "object"
+        linkTypeLabel:
+          description: "Link type label"
+          example: "Sends Data To"
+          type: "string"
+        linkTypeName:
+          description: "Link type name"
+          example: "Data Transfer"
+          type: "string"
+        sourceInventory:
+          description: "Associated Source Entity Instance for given Entity Type"
+          example:
+            id: "f2229953-b4b5-4042-8cb9-b78038cc4c46"
+            type: "assets"
+          type: "object"
+        targetInventory:
+          description: "Associated Target Entity Instance for given Entity Type"
+          example:
+            id: "6d91b451-bb7d-4989-a653-2d91ff972d5d"
+            type: "assets"
+          type: "object"
+      required:
+        - "sourceInventory"
+        - "targetInventory"
+        - "linkTypeName"
+        - "linkTypeLabel"
+      title: "LinkRequestDto"
+      type: "object"
+    ListAttributeValueCreateRequest:
+      items:
+        $ref: "#/components/schemas/AttributeValueCreateRequest"
+      type: "array"
+    ListAttributeValueResponse:
+      items:
+        $ref: "#/components/schemas/AttributeValueResponse"
+      type: "array"
+    ListInventoryAttachmentRequest:
+      items:
+        $ref: "#/components/schemas/InventoryAttachmentRequest"
+      type: "array"
+    Metadata:
+      properties:
+        page:
+          $ref: "#/components/schemas/OtPage"
+      title: "Metadata"
+      type: "object"
+    ObjectReference:
+      properties:
+        id:
+          type: "string"
+        value:
+          type: "string"
+      title: "ObjectReference"
+      type: "object"
+    OneTrustMetadata:
+      properties:
+        page:
+          $ref: "#/components/schemas/OneTrustPage"
+      title: "OneTrustMetadata"
+      type: "object"
+    OneTrustPage:
+      properties:
+        first:
+          type: "boolean"
+        last:
+          type: "boolean"
+        number:
+          format: "int64"
+          type: "integer"
+        size:
+          example: "1"
+          format: "int64"
+          type: "integer"
+        sort:
+          items:
+            $ref: "#/components/schemas/OneTrustSort"
+          type: "array"
+        totalElements:
+          example: "1"
+          format: "int64"
+          type: "integer"
+        totalPages:
+          example: "1"
+          format: "int64"
+          type: "integer"
+      title: "OneTrustPage"
+      type: "object"
+    OneTrustResponseListDataCategoryResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/DataCategoryResponse"
+          type: "array"
+        errors:
+          items:
+            type: "object"
+          type: "array"
+        meta:
+          $ref: "#/components/schemas/OneTrustMetadata"
+      title: "OneTrustResponseListDataCategoryResponse"
+      type: "object"
+    OneTrustResponseListDataClassificationResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/DataClassificationResponse"
+          type: "array"
+        errors:
+          items:
+            type: "object"
+          type: "array"
+        meta:
+          $ref: "#/components/schemas/OneTrustMetadata"
+      title: "OneTrustResponseListDataClassificationResponse"
+      type: "object"
+    OneTrustResponseListDataElementDetailedResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/DataElementDetailedResponse"
+          type: "array"
+        errors:
+          items:
+            type: "object"
+          type: "array"
+        meta:
+          $ref: "#/components/schemas/OneTrustMetadata"
+      title: "OneTrustResponseListDataElementDetailedResponse"
+      type: "object"
+    OneTrustResponseListDataSubjectResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/DataSubjectResponse"
+          type: "array"
+        errors:
+          items:
+            type: "object"
+          type: "array"
+        meta:
+          $ref: "#/components/schemas/OneTrustMetadata"
+      title: "OneTrustResponseListDataSubjectResponse"
+      type: "object"
+    OneTrustResponseListPersonalDataLinkResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/PersonalDataLinkResponse"
+          type: "array"
+        errors:
+          items:
+            type: "object"
+          type: "array"
+        meta:
+          $ref: "#/components/schemas/OneTrustMetadata"
+      title: "OneTrustResponseListPersonalDataLinkResponse"
+      type: "object"
+    OneTrustSort:
+      properties:
+        direction:
+          enum:
+            - "ASC"
+            - "DESC"
+          type: "string"
+        property:
+          type: "string"
+      title: "OneTrustSort"
+      type: "object"
+    OtPage:
+      properties:
+        first:
+          type: "boolean"
+        last:
+          type: "boolean"
+        number:
+          format: "int64"
+          type: "integer"
+        size:
+          format: "int64"
+          type: "integer"
+        totalElements:
+          format: "int64"
+          type: "integer"
+        totalPages:
+          format: "int64"
+          type: "integer"
+      title: "OtPage"
+      type: "object"
+    PersonalDataLinkRequest:
+      properties:
+        dataElement:
+          $ref: "#/components/schemas/ObjectReference"
+        dataSubjectType:
+          $ref: "#/components/schemas/ObjectReference"
+      title: "PersonalDataLinkRequest"
+      type: "object"
+    PersonalDataLinkResponse:
+      properties:
+        dataCategories:
+          items:
+            $ref: "#/components/schemas/DataCategoryResponse"
+          type: "array"
+        dataClassifications:
+          items:
+            $ref: "#/components/schemas/DataClassificationResponse"
+          type: "array"
+        dataElement:
+          $ref: "#/components/schemas/DataElementResponse"
+        dataSubjectType:
+          $ref: "#/components/schemas/DataSubjectResponse"
+      title: "PersonalDataLinkResponse"
+      type: "object"
+    PersonalDataRequest:
+      properties:
+        dataElementId:
+          description: "GUID of the Data Element"
+          example: "84cda4e6-4de1-4835-9dfd-46f88deb11c3"
+          type: "string"
+        dataSubjectTypeId:
+          description: "GUID of the Data Subject"
+          example: "d95f99dd-07a1-4f28-9711-c1ae590dbb46"
+          type: "string"
+      title: "PersonalDataLinkRequest"
+      type: "object"
+    Response:
+      properties:
+        data:
+          type: "object"
+        errors:
+          items:
+            $ref: "#/components/schemas/Error"
+          type: "array"
+      title: "Response"
+      type: "object"
+    ResponseDataCategoryResponse:
+      properties:
+        data:
+          $ref: "#/components/schemas/DataCategoryResponse"
+        errors:
+          items:
+            $ref: "#/components/schemas/Error"
+          type: "array"
+        meta:
+          $ref: "#/components/schemas/Metadata"
+      title: "ResponseDataCategoryResponse"
+      type: "object"
+    ResponseDataClassificationResponse:
+      properties:
+        data:
+          $ref: "#/components/schemas/DataClassificationResponse"
+        errors:
+          items:
+            $ref: "#/components/schemas/Error"
+          type: "array"
+        meta:
+          $ref: "#/components/schemas/Metadata"
+      title: "ResponseDataClassificationResponse"
+      type: "object"
+    ResponseDataElementDetailedResponse:
+      properties:
+        data:
+          $ref: "#/components/schemas/DataElementDetailedResponse"
+        errors:
+          items:
+            $ref: "#/components/schemas/Error"
+          type: "array"
+        meta:
+          $ref: "#/components/schemas/Metadata"
+      title: "ResponseDataElementDetailedResponse"
+      type: "object"
+    ResponseDataSubjectResponse:
+      properties:
+        data:
+          $ref: "#/components/schemas/DataSubjectResponse"
+        errors:
+          items:
+            $ref: "#/components/schemas/Error"
+          type: "array"
+        meta:
+          $ref: "#/components/schemas/Metadata"
+      title: "ResponseDataSubjectResponse"
+      type: "object"
+    SchemaSummaryDto:
+      properties:
+        description:
+          type: "string"
+        id:
+          type: "string"
+        name:
+          type: "string"
+        nameKey:
+          type: "string"
+        uri:
+          type: "string"
+      title: "SchemaSummaryDto"
+      type: "object"
+    UpdateInventoryDto:
+      description: "Inventory Update Request"
+      properties:
+        exampleMultiSelectField:
+          items:
+            $ref: "#/components/schemas/InventoryValue"
+          type: "array"
+        exampleSingleSelectField:
+          items:
+            $ref: "#/components/schemas/InventoryValue"
+          type: "array"
+        exampleTextField:
+          type: "string"
+      title: "UpdateInventoryDto"
+      type: "object"
+    UpsertInventoryDto:
+      description: "Inventory Upsert Request"
+      properties:
+        exampleMultiSelectField:
+          items:
+            $ref: "#/components/schemas/InventoryValue"
+          type: "array"
+        exampleSingleSelectField:
+          items:
+            $ref: "#/components/schemas/InventoryValue"
+          type: "array"
+        exampleTextField:
+          type: "string"
+        location:
+          $ref: "#/components/schemas/InventoryValue"
+        name:
+          type: "string"
+        organization:
+          $ref: "#/components/schemas/InventoryValue"
+        type:
+          $ref: "#/components/schemas/InventoryValue"
+      title: "UpsertInventoryDto"
+      type: "object"
