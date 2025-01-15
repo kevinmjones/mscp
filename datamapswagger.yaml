@@ -3,6 +3,9 @@ info:
   contact: {}
   title: "Privacy Cloud - Data Mapping Automation"
   version: "2.0"
+servers:
+  - url: https://uat.onetrust.com/api/inventory/v2
+    description: OneTrust UAT Environment  
 paths:
   /inventory-linking/v1/contextual-entities/inventory/{inventoryId}/pages:
     post:
