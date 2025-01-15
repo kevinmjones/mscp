@@ -115,3 +115,61 @@ paths:
           description: Bad request, possibly due to invalid query parameters.
         '500':
           description: Internal server error.
+  /inventory-linking/v1/contextual-entities/inventory/{inventoryId}/pages:
+    post:
+      operationId: listAllInventoryRelationshipsUsingPOST
+      summary: List all inventory relationships.
+      description: |
+        Use this API to get all relationships for an Inventory.
+
+        ### Example Request
+
+        `POST https://uat.onetrust.com/api/inventory-linking/v1/contextual-entities/inventory/{inventoryId}/pages`
+
+        `POST https://trial.onetrust.com/api/inventory-linking/v1/contextual-entities/inventory/c42797a7-64d2-47dd-bc13-62b1409bd68c/pages?size=20&page=0`
+      parameters:
+        - name: inventoryId
+          in: path
+          required: true
+          description: ID of the Inventory.
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                size:
+                  type: integer
+                  description: Number of items per page.
+                page:
+                  type: integer
+                  description: Page number to retrieve.
+      responses:
+        '200':
+          description: Successfully retrieved inventory relationships.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  relationships:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Relationship ID.
+                        name:
+                          type: string
+                          description: Relationship name.
+                        type:
+                          type: string
+                          description: Relationship type.
+        '400':
+          description: Bad request, possibly due to invalid parameters.
+        '500':
+          description: Internal server error.
