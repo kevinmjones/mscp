@@ -1,0 +1,16 @@
+Descriptor:
+  Name: datamap
+  DisplayName: datamap
+  Description: This tool can query the onetrust data mapping inventory for assets, vendors, entities, and processing activities.
+  SupportedAuthTypes:
+    - ApiKey
+  Authorization:
+    Type: APIKey
+    Key: Authorization
+    Location: Header
+    AuthScheme: 'Bearer '
+
+SkillGroups:
+  - Format: API
+    Settings:
+      OpenApiSpecUrl: https://raw.githubusercontent.com/kevinmjones/mscp/refs/heads/main/datamapswagger.yaml
