@@ -1,0 +1,16 @@
+Descriptor:
+  Name: datamap
+  DisplayName: datamap
+  Description: This tool can query the onetrust inventory and return details about specific assets by GUID
+  SupportedAuthTypes:
+    - ApiKey
+  Authorization:
+    Type: APIKey
+    Key: Authorization
+    Location: Header
+    AuthScheme: ''
+
+SkillGroups:
+  - Format: API
+    Settings:
+      OpenApiSpecUrl: https://raw.githubusercontent.com/kevinmjones/mscp/c7c1aaea59d668bda9816959216c87a024bf15c0/openapi.yaml
