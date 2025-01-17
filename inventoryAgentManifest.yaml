@@ -1,0 +1,30 @@
+Descriptor:
+  Name: Privacy CoPilot
+  DisplayName: Privacy CoPilot
+  Description: Privacy copilot assists with regulatory compliance activities for data privacy.
+  SupportedAuthTypes:
+    - ApiKey
+  Authorization:
+    Type: APIKey
+    Key: Authorization
+    Location: Header
+    AuthScheme: 'Bearer '
+
+SkillGroups:
+  - Format: Agent
+    Skills:
+      - Name: Inventory Agent
+        DisplayName: Inventory Agent
+        Description: Retrieves inventory information about assets , processing-activities, vendors, entities.
+        Inputs:
+          - Name: Inventory Request
+            Description: Specify the type of inventory you want to know about or a specific inventory you want details on
+            Required: true
+        Settings:
+          Instructions: |
+            You are an AI agent responsible for the OneTrust Data Map. you tools available to you to get the different types of inventory objects as well as get the details for a specific object . 
+            If the user asks for information about an object by name , first make a call to fetch all of the inventory objects, locate the GUID associated with the name provided, then use the GUID to make a details fetch request.
+          
+  - Format: API
+    Settings:
+      OpenApiSpecUrl: https://raw.githubusercontent.com/kevinmjones/mscp/refs/heads/main/inventoryapi.yaml
