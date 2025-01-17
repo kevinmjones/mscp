@@ -1,7 +1,7 @@
 Descriptor:
   Name: Privacy Copilot
   DisplayName: Privacy Copilot
-Description: Privacy copilot assists with regulatory compliance activities for data privacy.
+  Description: Privacy copilot assists with regulatory compliance activities for data privacy.
 SkillGroups:
   # Agents are just another type of skill
   - Format: Agent
@@ -16,43 +16,43 @@ SkillGroups:
         Settings:
           Instructions: |
             You are an AI agent responsible for managing the full text of regulations. Your job is to retrieve the latest verson of each regulation input by the user and provide it verbatim to the LegalAnalyst for review.
-      - Name: LegalAnalyst
-        DisplayName: Legal Analyst
-        Description: Identify and summarize the obligations provided by the LawLibrarian
-        Inputs:
-          - Name: regulatory text
-            Description: Analyzes each regulation and provides a list of obligations with citation to the regulatory requirement.
-            Required: true
-        Settings:
-          Instructions: |
-            You are an AI agent responsible for identifying and summarizing obligations provided by the LawLibrarian. Given an input of regulatory text , output a summary of the obligations that apply to the organization with citations, and share it with the SeniorLegalAnalyst for review. 
-      - Name: SeniorLegalAnalyst
-        DisplayName: Senior Legal Analyst
-        Description: Review the summary of legal obligations provided by the LegalAnalyst for completeness , accuracy , and clarity.  
-        Inputs:
-          - Name: Summary of legal obligations
-            Description: A summary of legal obligations with citations provided by the LegalAnalyst
-            Required: true
-        Settings:
-          Instructions: |
-            You are an AI agent responsible for reviewing the summary of legal obligations provided by the LegalAnalyst. Your job is to review the summary of obligations provided by the LegalAnalyst for completeness, accuracy, and clarity. Generate a detailed review of the summary provided, highlighting any discrpencies, omissions, or misinterpretations.\
-      - Name: ComplianceOfficer
-        DisplayName: ComplianceOfficer
-        Description: Provide insights into the obligations from a GRC perspective . 
-        Inputs:
-          - Name: Obligations
-            Description: A summary of obligations from the SeniorLegalAnalyst 
-            Required: true
-        Settings:
-          Instructions: |
-            You are an AI agent responsible for GRC. Your job is to provide insights into the obligations from a GRC perspective. The expected output is to provide insights on how the obligations align with GRC principles.
-      - Name: PolicyAnalyst
-        DisplayName: Policy Analyst
-        Description: Develop initial policy statements based on the obligations. 
-        Inputs:
-          - Name: Obligations
-            Description: A summary of obligations from the SeniorLegalAnalyst 
-            Required: true
-        Settings:
-          Instructions: |
-            You are an AI agent responsible for authoring corporate policies. Your task is to develop initial policy statements based on the obligations. Your expected result is an initial policy statement reflecting the obligations.
+        - Name: LegalAnalyst
+          DisplayName: Legal Analyst
+          Description: Identify and summarize the obligations provided by the LawLibrarian
+          Inputs:
+            - Name: regulatory text
+              Description: Analyzes each regulation and provides a list of obligations with citation to the regulatory requirement.
+              Required: true
+          Settings:
+            Instructions: |
+              You are an AI agent responsible for identifying and summarizing obligations provided by the LawLibrarian. Given an input of regulatory text , output a summary of the obligations that apply to the organization with citations, and share it with the SeniorLegalAnalyst for review. 
+        - Name: SeniorLegalAnalyst
+          DisplayName: Senior Legal Analyst
+          Description: Review the summary of legal obligations provided by the LegalAnalyst for completeness , accuracy , and clarity.  
+          Inputs:
+            - Name: Summary of legal obligations
+              Description: A summary of legal obligations with citations provided by the LegalAnalyst
+              Required: true
+          Settings:
+            Instructions: |
+              You are an AI agent responsible for reviewing the summary of legal obligations provided by the LegalAnalyst. Your job is to review the summary of obligations provided by the LegalAnalyst for completeness, accuracy, and clarity. Generate a detailed review of the summary provided, highlighting any discrpencies, omissions, or misinterpretations.\
+        - Name: ComplianceOfficer
+          DisplayName: ComplianceOfficer
+          Description: Provide insights into the obligations from a GRC perspective . 
+          Inputs:
+            - Name: Obligations
+              Description: A summary of obligations from the SeniorLegalAnalyst 
+              Required: true
+          Settings:
+            Instructions: |
+              You are an AI agent responsible for GRC. Your job is to provide insights into the obligations from a GRC perspective. The expected output is to provide insights on how the obligations align with GRC principles.
+        - Name: PolicyAnalyst
+          DisplayName: Policy Analyst
+          Description: Develop initial policy statements based on the obligations. 
+          Inputs:
+            - Name: Obligations
+              Description: A summary of obligations from the SeniorLegalAnalyst 
+              Required: true
+          Settings:
+            Instructions: |
+              You are an AI agent responsible for authoring corporate policies. Your task is to develop initial policy statements based on the obligations. Your expected result is an initial policy statement reflecting the obligations.
