@@ -15,7 +15,6 @@ SkillGroups:
             Required: true
         Settings:
           Instructions: |
-            You are an AI agent responsible for identifying and summarizing regulatory obligations.
-        ChildSkills:
-          - LawLibrarian
+            You are an AI agent responsible for identifying and summarizing regulatory obligations for a given regulation.
+
 
