@@ -1,0 +1,1362 @@
+
+"openapi": "3.0.0"
+"info":
+  "title": "Privacy Cloud - Incident Management"
+  "version": "1.0"
+"paths":
+  "/incidents":
+    "get":
+      "description": "get a list of incidents"
+      "operationId": "fetchIncidentUsingget"
+      "responses":
+        "200":
+          "description": "Ok"
+          "content":
+            "application/json":
+              "schema":
+                "type": "string"
+        "401":
+          "description": "Unauthorized"
+        "403":
+          "description": "Forbidden"
+        "404":
+          "description": "Not Found"
+      "summary": "Create Incident"
+      "tags":
+        - "Incidents"
+  "/incidents/{incidentId}":
+    "get":
+      "description": "Use this API to retrieve a single incident by its unique identifier along with the linked assessments, status, and the associated attributes."
+      "operationId": "getIncidentDetailByIncidentIdUsingGET"
+      "parameters":
+        -
+          "description": "ID of the incident. The value can be obtained using [Create Incident](/onetrust/reference/createincidentusingpost) API."
+          "in": "path"
+          "name": "incidentId"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "OK"
+          "content":
+            "*/*":
+              "schema":
+                "properties":
+                  "affectedSubjectRangeFrom":
+                    "format": "int32"
+                    "type": "integer"
+                  "affectedSubjectRangeTo":
+                    "format": "int32"
+                    "type": "integer"
+                  "assessmentLinks":
+                    "items":
+                      "properties":
+                        "assessmentId":
+                          "type": "string"
+                        "assessmentName":
+                          "type": "string"
+                        "assessmentStatus":
+                          "enum":
+                            - "NOT_STARTED"
+                            - "IN_PROGRESS"
+                            - "UNDER_REVIEW"
+                            - "COMPLETED"
+                          "type": "string"
+                        "primary":
+                          "type": "boolean"
+                      "required":
+                        - "assessmentId"
+                      "title": "AssessmentInformation"
+                      "type": "object"
+                    "type": "array"
+                  "attributeValues":
+                    "additionalProperties":
+                      "items":
+                        "properties":
+                          "id":
+                            "description": "Attribute option GUID."
+                            "format": "uuid"
+                            "type": "string"
+                          "value":
+                            "description": "Attribute option value."
+                            "type": "string"
+                          "valueKey":
+                            "description": "Attribute option value key for translation."
+                            "type": "string"
+                        "title": "AttributeValueInformation"
+                        "type": "object"
+                      "type": "array"
+                    "description": "The related incident attributes."
+                    "type": "object"
+                  "createdBy":
+                    "type": "string"
+                  "createdDT":
+                    "format": "date-time"
+                    "type": "string"
+                  "creator":
+                    "type": "string"
+                  "dateDiscovered":
+                    "format": "date-time"
+                    "type": "string"
+                  "dateOccurred":
+                    "format": "date-time"
+                    "type": "string"
+                  "deadline":
+                    "format": "date-time"
+                    "type": "string"
+                  "description":
+                    "type": "string"
+                  "id":
+                    "type": "string"
+                  "incidentAssigneeInformation":
+                    "description": "This is the information related to the user assigned to the incident."
+                    "items":
+                      "properties":
+                        "assigneeId":
+                          "description": "ID of the incident assignee."
+                          "format": "uuid"
+                          "type": "string"
+                        "assigneeName":
+                          "description": "Name of the incident assignee."
+                          "type": "string"
+                      "title": "IncidentAssigneeInformation"
+                      "type": "object"
+                    "type": "array"
+                  "incidentStageBadgeColor":
+                    "description": "The badge color of the incident workflow stage."
+                    "type": "string"
+                  "incidentStageId":
+                    "type": "string"
+                  "incidentStageName":
+                    "type": "string"
+                  "incidentStageNameKey":
+                    "type": "string"
+                  "incidentStageRulesId":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "incidentStatus":
+                    "enum":
+                      - "OPEN"
+                      - "CLOSED"
+                    "type": "string"
+                  "incidentTypeId":
+                    "type": "string"
+                  "incidentTypeName":
+                    "type": "string"
+                  "incidentTypeNameKey":
+                    "type": "string"
+                  "name":
+                    "type": "string"
+                  "notificationNeeded":
+                    "enum":
+                      - "YES"
+                      - "NO"
+                      - "UNKNOWN"
+                    "type": "string"
+                  "number":
+                    "format": "int64"
+                    "type": "integer"
+                  "orgGroupId":
+                    "type": "string"
+                  "orgGroupName":
+                    "type": "string"
+                  "rootCause":
+                    "type": "string"
+                  "schemaId":
+                    "description": "The schema Id."
+                    "type": "string"
+                  "sourceType":
+                    "enum":
+                      - "MANUAL"
+                      - "ASSESSMENT"
+                      - "WEBFORM"
+                      - "NONE"
+                    "type": "string"
+                  "updatedDT":
+                    "description": "The date and time when the incident was last updated."
+                    "format": "date-time"
+                    "type": "string"
+                  "workflowId":
+                    "type": "string"
+                  "workflowName":
+                    "type": "string"
+                  "workflowNameKey":
+                    "type": "string"
+                "title": "IncidentDetails"
+                "type": "object"
+            "application/json":
+              "schema":
+                "properties":
+                  "affectedSubjectRangeFrom":
+                    "format": "int32"
+                    "type": "integer"
+                  "affectedSubjectRangeTo":
+                    "format": "int32"
+                    "type": "integer"
+                  "assessmentLinks":
+                    "items":
+                      "properties":
+                        "assessmentId":
+                          "type": "string"
+                        "assessmentName":
+                          "type": "string"
+                        "assessmentStatus":
+                          "enum":
+                            - "NOT_STARTED"
+                            - "IN_PROGRESS"
+                            - "UNDER_REVIEW"
+                            - "COMPLETED"
+                          "type": "string"
+                        "primary":
+                          "type": "boolean"
+                      "required":
+                        - "assessmentId"
+                      "title": "AssessmentInformation"
+                      "type": "object"
+                    "type": "array"
+                  "attributeValues":
+                    "additionalProperties":
+                      "items":
+                        "properties":
+                          "id":
+                            "description": "Attribute option GUID."
+                            "format": "uuid"
+                            "type": "string"
+                          "value":
+                            "description": "Attribute option value."
+                            "type": "string"
+                          "valueKey":
+                            "description": "Attribute option value key for translation."
+                            "type": "string"
+                        "title": "AttributeValueInformation"
+                        "type": "object"
+                      "type": "array"
+                    "description": "The related incident attributes."
+                    "type": "object"
+                  "createdBy":
+                    "type": "string"
+                  "createdDT":
+                    "format": "date-time"
+                    "type": "string"
+                  "creator":
+                    "type": "string"
+                  "dateDiscovered":
+                    "format": "date-time"
+                    "type": "string"
+                  "dateOccurred":
+                    "format": "date-time"
+                    "type": "string"
+                  "deadline":
+                    "format": "date-time"
+                    "type": "string"
+                  "description":
+                    "type": "string"
+                  "id":
+                    "type": "string"
+                  "incidentAssigneeInformation":
+                    "description": "This is the information related to the user assigned to the incident."
+                    "items":
+                      "properties":
+                        "assigneeId":
+                          "description": "ID of the incident assignee."
+                          "format": "uuid"
+                          "type": "string"
+                        "assigneeName":
+                          "description": "Name of the incident assignee."
+                          "type": "string"
+                      "title": "IncidentAssigneeInformation"
+                      "type": "object"
+                    "type": "array"
+                  "incidentStageBadgeColor":
+                    "description": "The badge color of the incident workflow stage."
+                    "type": "string"
+                  "incidentStageId":
+                    "type": "string"
+                  "incidentStageName":
+                    "type": "string"
+                  "incidentStageNameKey":
+                    "type": "string"
+                  "incidentStageRulesId":
+                    "items":
+                      "type": "string"
+                    "type": "array"
+                  "incidentStatus":
+                    "enum":
+                      - "OPEN"
+                      - "CLOSED"
+                    "type": "string"
+                  "incidentTypeId":
+                    "type": "string"
+                  "incidentTypeName":
+                    "type": "string"
+                  "incidentTypeNameKey":
+                    "type": "string"
+                  "name":
+                    "type": "string"
+                  "notificationNeeded":
+                    "enum":
+                      - "YES"
+                      - "NO"
+                      - "UNKNOWN"
+                    "type": "string"
+                  "number":
+                    "format": "int64"
+                    "type": "integer"
+                  "orgGroupId":
+                    "type": "string"
+                  "orgGroupName":
+                    "type": "string"
+                  "rootCause":
+                    "type": "string"
+                  "schemaId":
+                    "description": "The schema Id."
+                    "type": "string"
+                  "sourceType":
+                    "enum":
+                      - "MANUAL"
+                      - "ASSESSMENT"
+                      - "WEBFORM"
+                      - "NONE"
+                    "type": "string"
+                  "updatedDT":
+                    "description": "The date and time when the incident was last updated."
+                    "format": "date-time"
+                    "type": "string"
+                  "workflowId":
+                    "type": "string"
+                  "workflowName":
+                    "type": "string"
+                  "workflowNameKey":
+                    "type": "string"
+                "title": "IncidentDetails"
+                "type": "object"
+        "401":
+          "description": "Unauthorized"
+        "403":
+          "description": "Forbidden"
+        "404":
+          "description": "Not Found"
+      "summary": "Get Incident"
+      "tags":
+        - "Incidents"
+"security":
+  -
+    "oauth2": []
+"tags":
+  -
+    "name": "Incidents"
+"x-onetrust":
+  "links":
+    "Incident Management Knowledge Base": "https://my.onetrust.com/s/topic/0TO1Q000000ItS1WAK/incident-response"
+  "spec-label": "Swagger 2"
+"x-readme":
+  "explorer-enabled": false
+  "proxy-enabled": false
+"servers":
+  -
+    "url": "https://uat.onetrust.com/api/incident/v1"
+"components":
+  "securitySchemes":
+    "oauth2":
+      "type": "oauth2"
+      "flows":
+        "clientCredentials":
+          "tokenUrl": "https://{$$.env.host}/api/access/v1/oauth/token"
+          "scopes": {}
+  "schemas":
+    "AssessmentInformation":
+      "properties":
+        "assessmentId":
+          "type": "string"
+        "assessmentName":
+          "type": "string"
+        "assessmentStatus":
+          "enum":
+            - "NOT_STARTED"
+            - "IN_PROGRESS"
+            - "UNDER_REVIEW"
+            - "COMPLETED"
+          "type": "string"
+        "primary":
+          "type": "boolean"
+      "required":
+        - "assessmentId"
+      "title": "AssessmentInformation"
+      "type": "object"
+    "AttributeValueInformation":
+      "properties":
+        "id":
+          "description": "Attribute option GUID."
+          "format": "uuid"
+          "type": "string"
+        "value":
+          "description": "Attribute option value."
+          "type": "string"
+        "valueKey":
+          "description": "Attribute option value key for translation."
+          "type": "string"
+      "title": "AttributeValueInformation"
+      "type": "object"
+    "IncidentAssigneeInformation":
+      "properties":
+        "assigneeId":
+          "description": "ID of the incident assignee."
+          "format": "uuid"
+          "type": "string"
+        "assigneeName":
+          "description": "Name of the incident assignee."
+          "type": "string"
+      "title": "IncidentAssigneeInformation"
+      "type": "object"
+    "IncidentAssigneeRequest":
+      "properties":
+        "assigneeEmail":
+          "description": "Email of the incident assignee."
+          "type": "string"
+        "assigneeId":
+          "description": "ID of the incident assignee."
+          "format": "uuid"
+          "type": "string"
+      "title": "incidentAssigneeRequests"
+      "type": "object"
+    "IncidentCreateRequest":
+      "description": "Incident object for creation."
+      "properties":
+        "attributeValues":
+          "additionalProperties":
+            "items":
+              "properties":
+                "id":
+                  "description": "Attribute option GUID."
+                  "format": "uuid"
+                  "type": "string"
+                "value":
+                  "description": "Attribute option value."
+                  "type": "string"
+                "valueKey":
+                  "description": "Attribute option value key for translation."
+                  "type": "string"
+              "title": "AttributeValueInformation"
+              "type": "object"
+            "type": "array"
+          "description": "The related incident attributes. Update all the attributes including base attributes in the JSON array. If any attribute value is missing in the JSON array, the existing ones will be overridden, and the attribute values will become empty."
+          "type": "object"
+        "dateDiscovered":
+          "description": "Date that the incident was discovered by the reporter."
+          "example": "2019-05-31T12:43:24.173Z"
+          "type": "string"
+        "dateOccurred":
+          "description": "Date that the incident occurred."
+          "example": "2019-05-31T12:43:24.173Z"
+          "type": "string"
+        "deadline":
+          "description": "Date that the incident investigation or notification is due."
+          "example": "2019-05-31T12:43:24.173Z"
+          "type": "string"
+        "description":
+          "description": "Brief description of the incident."
+          "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus est vel metus molestie, sed bibendum neque convallis. Vestibulum congue ante iaculis tempus fermentum. Cras tempus nunc quis lacus consequat vulputate. Suspendisse sed accumsan libero. Ut bibendum eleifend ipsum in blandit. Vestibulum pretium tristique massa. Praesent lorem purus, faucibus consectetur est vel, vulputate molestie diam. Praesent ligula ex, laoreet in dictum nec, pulvinar ac odio."
+          "type": "string"
+        "incidentAssigneeRequests":
+          "description": "This is the incident assignee details related to the request."
+          "items":
+            "properties":
+              "assigneeEmail":
+                "description": "Email of the incident assignee."
+                "type": "string"
+              "assigneeId":
+                "description": "ID of the incident assignee."
+                "format": "uuid"
+                "type": "string"
+            "title": "incidentAssigneeRequests"
+            "type": "object"
+          "type": "array"
+        "incidentTypeId":
+          "description": "UUID for the incident type."
+          "example": "00000000-0000-0000-0000-000000000000"
+          "type": "string"
+        "incidentTypeName":
+          "description": "The name of the type of incident that has occurred. This can be used in place of the incidentTypeId field."
+          "example": "Misdirected Email"
+          "type": "string"
+        "jurisdictions":
+          "description": "Impacted jurisdictions for the incident."
+          "items":
+            "properties":
+              "countryCode":
+                "description": "Three-digit country code of the jurisdiction."
+                "example": "USA"
+                "type": "string"
+              "countryId":
+                "description": "Country Id"
+                "format": "int64"
+                "type": "integer"
+              "countryName":
+                "description": "Country Name"
+                "type": "string"
+              "createdDT":
+                "description": "Date Created"
+                "format": "date-time"
+                "type": "string"
+              "jurisdictionId":
+                "description": "Incident Jurisdiction Id"
+                "type": "string"
+              "regionId":
+                "description": "Region Id"
+                "format": "int64"
+                "type": "integer"
+              "regionName":
+                "description": "Region Name"
+                "type": "string"
+              "stateProvinceCode":
+                "description": "State Province Code"
+                "type": "string"
+              "stateProvinceId":
+                "description": "State Province Id"
+                "format": "int64"
+                "type": "integer"
+              "stateProvinceName":
+                "description": "State Province Name"
+                "type": "string"
+            "title": "Jurisdiction"
+            "type": "object"
+          "type": "array"
+        "name":
+          "description": "Name of the incident. Provide a descriptive name to the incident so that it can be quickly referenced in the incident register."
+          "example": "Joe sent an email to the wrong client"
+          "type": "string"
+        "notificationNeeded":
+          "description": "Flag for whether or not a notification to an authority or individuals was needed."
+          "example": false
+          "type": "boolean"
+        "orgGroupId":
+          "description": "The organization that the incident will be created in. This can be retrieved from the [Get List of Organizations](/onetrust/reference/organizationtreestructureusingget) API."
+          "example": "00000000-0000-0000-0000-000000000000"
+          "type": "string"
+        "rootCause":
+          "description": "The root cause summary of the incident."
+          "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus est vel metus molestie, sed bibendum neque convallis. Vestibulum congue ante iaculis tempus fermentum. Cras tempus nunc quis lacus consequat vulputate. Suspendisse sed accumsan libero. Ut bibendum eleifend ipsum in blandit. Vestibulum pretium tristique massa. Praesent lorem purus, faucibus consectetur est vel, vulputate molestie diam. Praesent ligula ex, laoreet in dictum nec, pulvinar ac odio."
+          "type": "string"
+        "sourceType":
+          "default": "MANUAL"
+          "description": "Source type is used to determine how the incident was created. Accepted values are MANUAL or ASSESSMENT."
+          "example": "MANUAL"
+          "type": "string"
+      "required":
+        - "orgGroupId"
+      "title": "Create Incident Request"
+      "type": "object"
+    "IncidentDetails":
+      "properties":
+        "affectedSubjectRangeFrom":
+          "format": "int32"
+          "type": "integer"
+        "affectedSubjectRangeTo":
+          "format": "int32"
+          "type": "integer"
+        "assessmentLinks":
+          "items":
+            "properties":
+              "assessmentId":
+                "type": "string"
+              "assessmentName":
+                "type": "string"
+              "assessmentStatus":
+                "enum":
+                  - "NOT_STARTED"
+                  - "IN_PROGRESS"
+                  - "UNDER_REVIEW"
+                  - "COMPLETED"
+                "type": "string"
+              "primary":
+                "type": "boolean"
+            "required":
+              - "assessmentId"
+            "title": "AssessmentInformation"
+            "type": "object"
+          "type": "array"
+        "attributeValues":
+          "additionalProperties":
+            "items":
+              "properties":
+                "id":
+                  "description": "Attribute option GUID."
+                  "format": "uuid"
+                  "type": "string"
+                "value":
+                  "description": "Attribute option value."
+                  "type": "string"
+                "valueKey":
+                  "description": "Attribute option value key for translation."
+                  "type": "string"
+              "title": "AttributeValueInformation"
+              "type": "object"
+            "type": "array"
+          "description": "The related incident attributes."
+          "type": "object"
+        "createdBy":
+          "type": "string"
+        "createdDT":
+          "format": "date-time"
+          "type": "string"
+        "creator":
+          "type": "string"
+        "dateDiscovered":
+          "format": "date-time"
+          "type": "string"
+        "dateOccurred":
+          "format": "date-time"
+          "type": "string"
+        "deadline":
+          "format": "date-time"
+          "type": "string"
+        "description":
+          "type": "string"
+        "id":
+          "type": "string"
+        "incidentAssigneeInformation":
+          "description": "This is the information related to the user assigned to the incident."
+          "items":
+            "properties":
+              "assigneeId":
+                "description": "ID of the incident assignee."
+                "format": "uuid"
+                "type": "string"
+              "assigneeName":
+                "description": "Name of the incident assignee."
+                "type": "string"
+            "title": "IncidentAssigneeInformation"
+            "type": "object"
+          "type": "array"
+        "incidentStageBadgeColor":
+          "description": "The badge color of the incident workflow stage."
+          "type": "string"
+        "incidentStageId":
+          "type": "string"
+        "incidentStageName":
+          "type": "string"
+        "incidentStageNameKey":
+          "type": "string"
+        "incidentStageRulesId":
+          "items":
+            "type": "string"
+          "type": "array"
+        "incidentStatus":
+          "enum":
+            - "OPEN"
+            - "CLOSED"
+          "type": "string"
+        "incidentTypeId":
+          "type": "string"
+        "incidentTypeName":
+          "type": "string"
+        "incidentTypeNameKey":
+          "type": "string"
+        "name":
+          "type": "string"
+        "notificationNeeded":
+          "enum":
+            - "YES"
+            - "NO"
+            - "UNKNOWN"
+          "type": "string"
+        "number":
+          "format": "int64"
+          "type": "integer"
+        "orgGroupId":
+          "type": "string"
+        "orgGroupName":
+          "type": "string"
+        "rootCause":
+          "type": "string"
+        "schemaId":
+          "description": "The schema Id."
+          "type": "string"
+        "sourceType":
+          "enum":
+            - "MANUAL"
+            - "ASSESSMENT"
+            - "WEBFORM"
+            - "NONE"
+          "type": "string"
+        "updatedDT":
+          "description": "The date and time when the incident was last updated."
+          "format": "date-time"
+          "type": "string"
+        "workflowId":
+          "type": "string"
+        "workflowName":
+          "type": "string"
+        "workflowNameKey":
+          "type": "string"
+      "title": "IncidentDetails"
+      "type": "object"
+    "IncidentInformation":
+      "properties":
+        "affectedSubjectRangeFrom":
+          "format": "int32"
+          "type": "integer"
+        "affectedSubjectRangeTo":
+          "format": "int32"
+          "type": "integer"
+        "assessmentLinks":
+          "items":
+            "properties":
+              "assessmentId":
+                "type": "string"
+              "assessmentName":
+                "type": "string"
+              "assessmentStatus":
+                "enum":
+                  - "NOT_STARTED"
+                  - "IN_PROGRESS"
+                  - "UNDER_REVIEW"
+                  - "COMPLETED"
+                "type": "string"
+              "primary":
+                "type": "boolean"
+            "required":
+              - "assessmentId"
+            "title": "AssessmentInformation"
+            "type": "object"
+          "type": "array"
+        "attributeValues":
+          "additionalProperties":
+            "items":
+              "properties":
+                "id":
+                  "description": "Attribute option GUID."
+                  "format": "uuid"
+                  "type": "string"
+                "value":
+                  "description": "Attribute option value."
+                  "type": "string"
+                "valueKey":
+                  "description": "Attribute option value key for translation."
+                  "type": "string"
+              "title": "AttributeValueInformation"
+              "type": "object"
+            "type": "array"
+          "description": "The related incident attributes."
+          "type": "object"
+        "createdBy":
+          "type": "string"
+        "createdDT":
+          "format": "date-time"
+          "type": "string"
+        "creator":
+          "type": "string"
+        "dateDiscovered":
+          "format": "date-time"
+          "type": "string"
+        "dateOccurred":
+          "format": "date-time"
+          "type": "string"
+        "deadline":
+          "format": "date-time"
+          "type": "string"
+        "description":
+          "type": "string"
+        "id":
+          "type": "string"
+        "incidentAssigneeInformation":
+          "description": "This is the information related to the user assigned to the incident."
+          "items":
+            "properties":
+              "assigneeId":
+                "description": "ID of the incident assignee."
+                "format": "uuid"
+                "type": "string"
+              "assigneeName":
+                "description": "Name of the incident assignee."
+                "type": "string"
+            "title": "IncidentAssigneeInformation"
+            "type": "object"
+          "type": "array"
+        "incidentStageBadgeColor":
+          "description": "The badge color of the incident workflow stage."
+          "type": "string"
+        "incidentStageId":
+          "type": "string"
+        "incidentStageName":
+          "type": "string"
+        "incidentStageNameKey":
+          "type": "string"
+        "incidentStageRulesId":
+          "items":
+            "type": "string"
+          "type": "array"
+        "incidentStatus":
+          "enum":
+            - "OPEN"
+            - "CLOSED"
+          "type": "string"
+        "incidentTypeId":
+          "type": "string"
+        "incidentTypeName":
+          "type": "string"
+        "incidentTypeNameKey":
+          "type": "string"
+        "jurisdictions":
+          "items":
+            "properties":
+              "countryCode":
+                "description": "Country Code"
+                "type": "string"
+              "countryId":
+                "description": "Country Id"
+                "format": "int64"
+                "type": "integer"
+              "countryName":
+                "description": "Country Name"
+                "type": "string"
+              "createdDT":
+                "description": "Date Created"
+                "format": "date-time"
+                "type": "string"
+              "jurisdictionId":
+                "description": "Incident Jurisdiction Id"
+                "type": "string"
+              "notifyAuthority":
+                "description": "Guidance Notify Authority"
+                "enum":
+                  - "NOTIFICATION_REQUIRED"
+                  - "NOTIFICATION_NOT_REQUIRED"
+                  - "NEEDS_MORE_INFO"
+                "type": "string"
+              "notifyAuthorityDeadline":
+                "description": "Guidance Notify Authority Deadline"
+                "format": "date-time"
+                "type": "string"
+              "notifyIndividual":
+                "description": "Individual Incident Guidance Notification State"
+                "enum":
+                  - "NOTIFICATION_REQUIRED"
+                  - "NOTIFICATION_NOT_REQUIRED"
+                  - "NEEDS_MORE_INFO"
+                "type": "string"
+              "notifyIndividualDeadline":
+                "description": "Guidance Notify Individual Deadline"
+                "format": "date-time"
+                "type": "string"
+              "numberOfGuidances":
+                "description": "Number Of Guidances"
+                "format": "int32"
+                "type": "integer"
+              "regionId":
+                "description": "Region Id"
+                "format": "int64"
+                "type": "integer"
+              "regionName":
+                "description": "Region Name"
+                "type": "string"
+              "stateProvinceCode":
+                "description": "State Province Code"
+                "type": "string"
+              "stateProvinceId":
+                "description": "State Province Id"
+                "format": "int64"
+                "type": "integer"
+              "stateProvinceName":
+                "description": "State Province Name"
+                "type": "string"
+              "urgency":
+                "description": "Urgency"
+                "enum":
+                  - "LOW"
+                  - "MEDIUM"
+                  - "HIGH"
+                  - "NONE"
+                "type": "string"
+            "title": "IncidentJurisdictionGuidanceInformation"
+            "type": "object"
+          "type": "array"
+        "name":
+          "type": "string"
+        "notificationNeeded":
+          "enum":
+            - "YES"
+            - "NO"
+            - "UNKNOWN"
+          "type": "string"
+        "number":
+          "format": "int64"
+          "type": "integer"
+        "orgGroupId":
+          "type": "string"
+        "orgGroupName":
+          "type": "string"
+        "rootCause":
+          "type": "string"
+        "schemaId":
+          "description": "The schema Id."
+          "type": "string"
+        "sourceType":
+          "enum":
+            - "MANUAL"
+            - "ASSESSMENT"
+            - "WEBFORM"
+            - "NONE"
+          "type": "string"
+        "updatedDT":
+          "description": "The date and time when the incident was last updated."
+          "format": "date-time"
+          "type": "string"
+        "workflowId":
+          "type": "string"
+        "workflowName":
+          "type": "string"
+        "workflowNameKey":
+          "type": "string"
+      "title": "IncidentInformation"
+      "type": "object"
+    "IncidentJurisdictionCreateRequest":
+      "properties":
+        "countryCode":
+          "description": "Three-digit country code of the jurisdiction."
+          "example": "USA"
+          "type": "string"
+        "countryId":
+          "description": "Country Id"
+          "format": "int64"
+          "type": "integer"
+        "countryName":
+          "description": "Country Name"
+          "type": "string"
+        "createdDT":
+          "description": "Date Created"
+          "format": "date-time"
+          "type": "string"
+        "jurisdictionId":
+          "description": "Incident Jurisdiction Id"
+          "type": "string"
+        "regionId":
+          "description": "Region Id"
+          "format": "int64"
+          "type": "integer"
+        "regionName":
+          "description": "Region Name"
+          "type": "string"
+        "stateProvinceCode":
+          "description": "State Province Code"
+          "type": "string"
+        "stateProvinceId":
+          "description": "State Province Id"
+          "format": "int64"
+          "type": "integer"
+        "stateProvinceName":
+          "description": "State Province Name"
+          "type": "string"
+      "title": "Jurisdiction"
+      "type": "object"
+    "IncidentJurisdictionGuidanceInformation":
+      "properties":
+        "countryCode":
+          "description": "Country Code"
+          "type": "string"
+        "countryId":
+          "description": "Country Id"
+          "format": "int64"
+          "type": "integer"
+        "countryName":
+          "description": "Country Name"
+          "type": "string"
+        "createdDT":
+          "description": "Date Created"
+          "format": "date-time"
+          "type": "string"
+        "jurisdictionId":
+          "description": "Incident Jurisdiction Id"
+          "type": "string"
+        "notifyAuthority":
+          "description": "Guidance Notify Authority"
+          "enum":
+            - "NOTIFICATION_REQUIRED"
+            - "NOTIFICATION_NOT_REQUIRED"
+            - "NEEDS_MORE_INFO"
+          "type": "string"
+        "notifyAuthorityDeadline":
+          "description": "Guidance Notify Authority Deadline"
+          "format": "date-time"
+          "type": "string"
+        "notifyIndividual":
+          "description": "Individual Incident Guidance Notification State"
+          "enum":
+            - "NOTIFICATION_REQUIRED"
+            - "NOTIFICATION_NOT_REQUIRED"
+            - "NEEDS_MORE_INFO"
+          "type": "string"
+        "notifyIndividualDeadline":
+          "description": "Guidance Notify Individual Deadline"
+          "format": "date-time"
+          "type": "string"
+        "numberOfGuidances":
+          "description": "Number Of Guidances"
+          "format": "int32"
+          "type": "integer"
+        "regionId":
+          "description": "Region Id"
+          "format": "int64"
+          "type": "integer"
+        "regionName":
+          "description": "Region Name"
+          "type": "string"
+        "stateProvinceCode":
+          "description": "State Province Code"
+          "type": "string"
+        "stateProvinceId":
+          "description": "State Province Id"
+          "format": "int64"
+          "type": "integer"
+        "stateProvinceName":
+          "description": "State Province Name"
+          "type": "string"
+        "urgency":
+          "description": "Urgency"
+          "enum":
+            - "LOW"
+            - "MEDIUM"
+            - "HIGH"
+            - "NONE"
+          "type": "string"
+      "title": "IncidentJurisdictionGuidanceInformation"
+      "type": "object"
+    "IncidentListInformation":
+      "properties":
+        "assigneeName":
+          "description": "Incident User Assignee Name."
+          "type": "string"
+        "attributeValues":
+          "additionalProperties":
+            "items":
+              "properties":
+                "id":
+                  "description": "Attribute option GUID."
+                  "format": "uuid"
+                  "type": "string"
+                "value":
+                  "description": "Attribute option value."
+                  "type": "string"
+                "valueKey":
+                  "description": "Attribute option value key for translation."
+                  "type": "string"
+              "title": "AttributeValueInformation"
+              "type": "object"
+            "type": "array"
+          "description": "The related incident attributes."
+          "type": "object"
+        "createdBy":
+          "description": "Incident Created User Id."
+          "type": "string"
+        "createdDate":
+          "description": "Incident Created Date."
+          "format": "date-time"
+          "type": "string"
+        "creator":
+          "description": "Incident Created User Name."
+          "type": "string"
+        "dateDiscovered":
+          "description": "The date and time on which the incident got discovered."
+          "format": "date-time"
+          "type": "string"
+        "dateOccurred":
+          "description": "The date and time on which the incident occured."
+          "format": "date-time"
+          "type": "string"
+        "deadline":
+          "description": "Incident Deadline."
+          "format": "date-time"
+          "type": "string"
+        "description":
+          "description": "Incident Description."
+          "type": "string"
+        "incidentId":
+          "description": "ID of the incident."
+          "type": "string"
+        "incidentStageBadgeColor":
+          "description": "The badge color of the incident workflow stage."
+          "type": "string"
+        "incidentStageId":
+          "description": "Incident Stage Id."
+          "type": "string"
+        "incidentStageName":
+          "description": "Incident Stage Name."
+          "type": "string"
+        "incidentStageNameKey":
+          "description": "Incident Stage Key which can be used for translation."
+          "type": "string"
+        "incidentStatus":
+          "enum":
+            - "OPEN"
+            - "CLOSED"
+          "type": "string"
+        "incidentTypeId":
+          "description": "Incident Type Id."
+          "type": "string"
+        "incidentTypeName":
+          "description": "Incident Type Name."
+          "type": "string"
+        "incidentTypeNameKey":
+          "description": "Incident Type Name Key which can be used for translation."
+          "type": "string"
+        "isDeleted":
+          "description": "The flag to check if the Incident is Deleted or not."
+          "example": false
+          "type": "boolean"
+        "isExtended":
+          "description": "Is Incident Deadline Extended."
+          "example": false
+          "type": "boolean"
+        "name":
+          "description": "Incident Name."
+          "type": "string"
+        "notificationNeeded":
+          "description": "Is notification needed or not."
+          "example": false
+          "type": "boolean"
+        "number":
+          "description": "Incident Number."
+          "format": "int64"
+          "type": "integer"
+        "openAssessment":
+          "description": "Count of Open Assessments Linked to this Incident."
+          "format": "int64"
+          "type": "integer"
+        "orgGroupId":
+          "description": "Organization Group Id."
+          "type": "string"
+        "orgGroupName":
+          "description": "Organization Group Name."
+          "type": "string"
+        "totalAssessment":
+          "description": "Count of Assessment Linked to this Incident."
+          "format": "int64"
+          "type": "integer"
+        "workflowId":
+          "description": "Incident Workflow Id."
+          "type": "string"
+        "workflowName":
+          "description": "Incident Workflow Name."
+          "type": "string"
+        "workflowNameKey":
+          "description": "Incident Workflow Name Key which can be used for translation."
+          "type": "string"
+      "title": "IncidentListInformation"
+      "type": "object"
+    "PageIncidentListInformation":
+      "properties":
+        "content":
+          "items":
+            "properties":
+              "assigneeName":
+                "description": "Incident User Assignee Name."
+                "type": "string"
+              "attributeValues":
+                "additionalProperties":
+                  "items":
+                    "properties":
+                      "id":
+                        "description": "Attribute option GUID."
+                        "format": "uuid"
+                        "type": "string"
+                      "value":
+                        "description": "Attribute option value."
+                        "type": "string"
+                      "valueKey":
+                        "description": "Attribute option value key for translation."
+                        "type": "string"
+                    "title": "AttributeValueInformation"
+                    "type": "object"
+                  "type": "array"
+                "description": "The related incident attributes."
+                "type": "object"
+              "createdBy":
+                "description": "Incident Created User Id."
+                "type": "string"
+              "createdDate":
+                "description": "Incident Created Date."
+                "format": "date-time"
+                "type": "string"
+              "creator":
+                "description": "Incident Created User Name."
+                "type": "string"
+              "dateDiscovered":
+                "description": "The date and time on which the incident got discovered."
+                "format": "date-time"
+                "type": "string"
+              "dateOccurred":
+                "description": "The date and time on which the incident occured."
+                "format": "date-time"
+                "type": "string"
+              "deadline":
+                "description": "Incident Deadline."
+                "format": "date-time"
+                "type": "string"
+              "description":
+                "description": "Incident Description."
+                "type": "string"
+              "incidentId":
+                "description": "ID of the incident."
+                "type": "string"
+              "incidentStageBadgeColor":
+                "description": "The badge color of the incident workflow stage."
+                "type": "string"
+              "incidentStageId":
+                "description": "Incident Stage Id."
+                "type": "string"
+              "incidentStageName":
+                "description": "Incident Stage Name."
+                "type": "string"
+              "incidentStageNameKey":
+                "description": "Incident Stage Key which can be used for translation."
+                "type": "string"
+              "incidentStatus":
+                "enum":
+                  - "OPEN"
+                  - "CLOSED"
+                "type": "string"
+              "incidentTypeId":
+                "description": "Incident Type Id."
+                "type": "string"
+              "incidentTypeName":
+                "description": "Incident Type Name."
+                "type": "string"
+              "incidentTypeNameKey":
+                "description": "Incident Type Name Key which can be used for translation."
+                "type": "string"
+              "isDeleted":
+                "description": "The flag to check if the Incident is Deleted or not."
+                "example": false
+                "type": "boolean"
+              "isExtended":
+                "description": "Is Incident Deadline Extended."
+                "example": false
+                "type": "boolean"
+              "name":
+                "description": "Incident Name."
+                "type": "string"
+              "notificationNeeded":
+                "description": "Is notification needed or not."
+                "example": false
+                "type": "boolean"
+              "number":
+                "description": "Incident Number."
+                "format": "int64"
+                "type": "integer"
+              "openAssessment":
+                "description": "Count of Open Assessments Linked to this Incident."
+                "format": "int64"
+                "type": "integer"
+              "orgGroupId":
+                "description": "Organization Group Id."
+                "type": "string"
+              "orgGroupName":
+                "description": "Organization Group Name."
+                "type": "string"
+              "totalAssessment":
+                "description": "Count of Assessment Linked to this Incident."
+                "format": "int64"
+                "type": "integer"
+              "workflowId":
+                "description": "Incident Workflow Id."
+                "type": "string"
+              "workflowName":
+                "description": "Incident Workflow Name."
+                "type": "string"
+              "workflowNameKey":
+                "description": "Incident Workflow Name Key which can be used for translation."
+                "type": "string"
+            "title": "IncidentListInformation"
+            "type": "object"
+          "type": "array"
+        "first":
+          "type": "boolean"
+        "last":
+          "type": "boolean"
+        "number":
+          "format": "int32"
+          "type": "integer"
+        "numberOfElements":
+          "format": "int32"
+          "type": "integer"
+        "size":
+          "format": "int32"
+          "type": "integer"
+        "sort":
+          "title": "Sort"
+          "type": "object"
+        "totalElements":
+          "format": "int64"
+          "type": "integer"
+        "totalPages":
+          "format": "int32"
+          "type": "integer"
+      "title": "PageIncidentListInformation"
+      "type": "object"
+    "SearchCriteriaInformation":
+      "properties":
+        "filters":
+          "description": "It is the map of the field name and the value. It can filter on incidentId, number, isExtended, isDeleted, incidentTypeId, orgGroupId, incidentStageNameKey, incidentWorkflowName, assigneeId, createdBy, deadline, dateOccurred, dateDiscovered, createdDate, notificationNeeded, incidentStatus, dateClosed."
+          "type": "object"
+        "fullText":
+          "description": "Full text search term. It can search on Incident name, description, type name, assignee name, organization group name, root cause, creator and stage name."
+          "type": "string"
+      "title": "SearchCriteriaInformation"
+      "type": "object"
+    "Sort":
+      "title": "Sort"
+      "type": "object"
+    "WorkflowSpecificStageNavigationRequest":
+      "properties":
+        "nextStageName":
+          "description": "Name of the stage that you want to transition the incident to."
+          "example": "In Progress"
+          "type": "string"
+        "parameters":
+          "description": "Object containing the names and values of additional parameters. Currently, the supported values are executeRule and justification. (ex. parameters: { 'executeRule': true,\"justification\":\"\" })"
+          "properties":
+            "executeRule":
+              "description": "Determines whether or not the rules for the stage will trigger. True will change the stage and trigger the rules. False will change the stage and not trigger the rules."
+              "example": true
+              "type": "boolean"
+          "type": "object"
+      "required":
+        - "nextStageName"
+      "title": "Transition Workflow Stage Request"
+      "type": "object"
+    "WorkflowStageListInformation":
+      "properties":
+        "allowDeletion":
+          "description": "Indicate if Workflow Stage can be deleted or not."
+          "example": false
+          "type": "boolean"
+        "customFields":
+          "description": "Custom fields"
+          "type": "object"
+        "description":
+          "description": "Workflow Stage Description."
+          "type": "string"
+        "descriptionKey":
+          "description": "Workflow Stage Description Key. Used for Translation."
+          "type": "string"
+        "id":
+          "description": "Workflow Stage Identifier."
+          "type": "string"
+        "name":
+          "description": "Workflow Stage Name."
+          "type": "string"
+        "nameKey":
+          "description": "Workflow Stage Name Key. Used for Translation."
+          "type": "string"
+        "sequence":
+          "description": "Workflow Stage Sequence."
+          "format": "int32"
+          "type": "integer"
+      "required":
+        - "id"
+        - "name"
+        - "sequence"
+      "title": "WorkflowStageListInformation"
+      "type": "object"
