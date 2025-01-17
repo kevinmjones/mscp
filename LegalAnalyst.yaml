@@ -1,7 +1,7 @@
 Descriptor:
-  Name: Privacy Copilot
-  DisplayName: Privacy Copilot
-  Description: Privacy copilot assists with regulatory compliance activities for data privacy.
+  Name: LegalAnalyst
+  DisplayName: LegalAnalyst
+  Description: Identify and summarize the obligations provided by the LawLibrarian
 SkillGroups:
   # Agents are just another type of skill
   - Format: Agent
