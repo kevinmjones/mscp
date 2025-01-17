@@ -7,15 +7,15 @@ SkillGroups:
   - Format: Agent
     Skills:
       - Name: LegalAnalyst
-          DisplayName: Legal Analyst
-          Description: Identify and summarize the obligations provided by the LawLibrarian
-          Inputs:
-            - Name: regulatory text
-              Description: Analyzes each regulation and provides a list of obligations with citation to the regulatory requirement.
-              Required: true
-          Settings:
-            Instructions: |
-              You are an AI agent responsible for identifying and summarizing obligations provided by the LawLibrarian. Given an input of regulatory text , output a summary of the obligations that apply to the organization with citations, and share it with the SeniorLegalAnalyst for review. 
-          ChildSkills:
-            - LawLibrarian
- 
+        DisplayName: Legal Analyst
+        Description: Identify and summarize the obligations provided by the LawLibrarian
+        Inputs:
+          - Name: regulatory text
+            Description: Analyzes each regulation and provides a list of obligations with citation to the regulatory requirement.
+            Required: true
+        Settings:
+          Instructions: |
+            You are an AI agent responsible for identifying and summarizing obligations provided by the LawLibrarian. Given an input of regulatory text , output a summary of the obligations that apply to the organization with citations, and share it with the SeniorLegalAnalyst for review. 
+        ChildSkills:
+          - LawLibrarian
+
