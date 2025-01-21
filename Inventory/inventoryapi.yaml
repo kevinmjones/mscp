@@ -11,8 +11,11 @@ paths:
     get:
       operationId: "Fetches a list of inventory objects by type"
       summary: Retrieve a list of all inventory objects by type. 
-      description: |
-        Get a list of inventory records in the onetrust data map.
+      description: Get a list of inventory records in the onetrust data map.
+      DescriptionForModel: |
+        You will make a request with 'page' equal to 0.
+        You will make a request with 'pageSize' equal to 50. 
+        You will format your response in a table with columns for Name (i.e. "Azure SQL"), Location (i.e. "United States"), Type (i.e. "Database"), ID (i.e. "74215838-8c0d-4f03-98bf-f5f56e7369d4")
         #ExamplePrompt What are the available Assets in my Inventory?
         #ExamplePrompt What are the processing activities in my data map ?
         #ExamplePrompt What are the approved vendors in my inventory?
@@ -98,8 +101,9 @@ paths:
     get:
       operationId: "Fetches a record by ID for a specific inventory type"
       summary: Retrieve a record by its ID.
-      description: |
-        Fetches the details of a specific record from the OneTrust inventory using the provided ID and type.
+      description: Fetches the details of a specific record from the OneTrust inventory using the provided ID and type.
+      DescriptionForModel: |
+        You will format your response in a table with columns for "key" and "value" with rows for Name, Description, location, owner, type, and ID.
         #ExamplePrompt What are the details for asset ID 74215838-8c0d-4f03-98bf-f5f56e7369d4?
         #ExamplePrompt What is the location for the asset named "AWS S3" ?
         #ExamplePrompt Who is is responsible for the processing activity b91ac339-98e6-42ee-ad2c-71d1345b3cd3?
