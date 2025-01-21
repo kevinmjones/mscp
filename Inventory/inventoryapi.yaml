@@ -30,14 +30,6 @@ paths:
             - vendors
             - processing-activities
             - entities
-        - name: page
-          in: query
-          required: true
-          description: The page number for paginated results.
-          schema:
-            type: integer
-            minimum: 0
-          default: 0
         - name: pageSize
           in: query
           required: true
