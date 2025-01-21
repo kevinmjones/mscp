@@ -13,4 +13,4 @@ Descriptor:
 SkillGroups:
   - Format: API
     Settings:
-      OpenApiSpecUrl: https://raw.githubusercontent.com/kevinmjones/mscp/cd0d9fce30e246fe01eae01e767043a25d058d9c/Inventory/inventoryapi.yaml
+      OpenApiSpecUrl: https://raw.githubusercontent.com/kevinmjones/mscp/refs/heads/main/Inventory/inventoryapi.yaml
