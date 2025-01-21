@@ -1,0 +1,152 @@
+openapi: 3.0.0
+info:
+  title: OneTrust Data Mapping Inventory
+  description: API to interact with Data Mapping inventory in the OneTrust system.
+  version: 1.0.0
+servers:
+  - url: https://uat.onetrust.com/api/inventory/v2
+    description: OneTrust UAT Environment
+paths:
+  /inventories/{inventoryType}:
+    get:
+      operationId: "Fetches a list of inventory objects by type"
+      summary: Retrieve a list of all inventory objects by type. 
+      description: |
+        Get a list of inventory records in the onetrust data map.
+        #ExamplePrompt What are the available Assets in my Inventory?
+        #ExamplePrompt What are the processing activities in my data map ?
+        #ExamplePrompt What are the approved vendors in my inventory?
+        #ExamplePrompt What are the Legal Entities in my inventory?
+      parameters:
+        - name: inventoryType
+          description: The type of inventory to query, options are assets, vendors, processing-activities, entities .
+          in: path
+          required: true
+          schema:
+            type: string
+          default: assets
+          enum: 
+            - assets
+            - vendors
+            - processing-activities
+            - entities
+        - name: page
+          in: query
+          required: true
+          description: The page number for paginated results.
+          schema:
+            type: integer
+            minimum: 0
+          default: 0
+        - name: pageSize
+          in: query
+          required: true
+          description: The number of items to include per page for paginated results.
+          schema:
+            type: integer
+            minimum: 50
+        - name: filter
+          in: query
+          required: false
+          description: Filter criteria to apply to the list of assets.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved the list of assets.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The unique identifier of the asset.
+                        name:
+                          type: string
+                          description: The name of the asset.
+                        type:
+                          type: string
+                          description: The type or category of the asset.
+                        status:
+                          type: string
+                          description: The status of the asset.
+                        metadata:
+                          type: object
+                          description: Additional metadata about the asset.
+                  totalItems:
+                    type: integer
+                    description: The total number of assets available.
+                  totalPages:
+                    type: integer
+                    description: The total number of pages available.
+                  currentPage:
+                    type: integer
+                    description: The current page number.
+        '400':
+          description: Bad request, possibly due to invalid query parameters.
+        '500':
+          description: Internal server error.
+  /inventories/{inventoryType}/{ID}:
+    get:
+      operationId: "Fetches a record by ID for a specific inventory type"
+      summary: Retrieve a record by its ID.
+      description: |
+        Fetches the details of a specific record from the OneTrust inventory using the provided ID and type.
+        #ExamplePrompt What are the details for asset ID 74215838-8c0d-4f03-98bf-f5f56e7369d4?
+        #ExamplePrompt What is the location for the asset named "AWS S3" ?
+        #ExamplePrompt Who is is responsible for the processing activity b91ac339-98e6-42ee-ad2c-71d1345b3cd3?
+        #ExamplePrompt Is the processing activity for 'Acquire members to customer loyalty program' active?
+      parameters:
+        - name: inventoryType
+          description: The type of inventory to query, options are assets, vendors, processing-activities, entities .
+          in: path
+          required: true
+          schema:
+            type: string
+          default: assets
+          enum: 
+            - assets
+            - vendors
+            - processing-activities
+            - entities
+        - name: ID
+          in: path
+          required: true
+          description: The unique identifier of the record to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved the record.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The unique identifier of the asset.
+                  name:
+                    type: string
+                    description: The name of the asset.
+                  type:
+                    type: string
+                    description: The type or category of the asset.
+                  status:
+                    type: string
+                    description: The status of the asset.
+                  metadata:
+                    type: object
+                    description: Additional metadata about the asset.
+        '400':
+          description: Bad request, possibly due to a missing or invalid asset ID.
+        '404':
+          description: Asset not found for the given ID.
+        '500':
+          description: Internal server error.
