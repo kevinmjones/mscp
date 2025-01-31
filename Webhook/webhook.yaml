@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  title: OneTrust Integration Manager Webhook API
+  version: 1.0.0
+  description: API specification for sending asset classification data to OneTrust Integration Manager.
+servers:
+  - url: https://uat.onetrust.com/integrationmanager/api/v1
+paths:
+  /webhook/5c22522a-95a9-4d0e-bd3d-341b834f44a7:
+    post:
+      summary: Send asset classification data
+      operationId: sendAssetClassification
+      description: Sends asset classification data to the OneTrust webhook.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                IT_OWNER:
+                  type: string
+                  format: email
+                  example: kjones@1trust.app
+                SourceName:
+                  type: string
+                  example: AzureSqlDatabase-UjS
+                SourceType:
+                  type: string
+                  example: AzureSqlDatabase
+                SourceRegion:
+                  type: string
+                  example: northeurope
+                AssetName:
+                  type: string
+                  example: new_customerdata
+                AssetType:
+                  type: string
+                  example: Table
+                AssetPath:
+                  type: string
+                  example: "mssql://ecohackssqlsvr.database.windows.net/ecohacksSQL/dbo/new_customerdata"
+                Classification:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                    - MICROSOFT.GOVERNMENT.US.STATE
+                    - MICROSOFT.PERSONAL.NAME
+                    - MICROSOFT.PERSONAL.US.PHONE_NUMBER
+                    - U.S. Social Security Number (SSN)
+                Classificationdetails:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      Id:
+                        type: string
+                        format: uuid
+                      Name:
+                        type: string
+                      Confidence:
+                        type: integer
+                        minimum: 0
+                        maximum: 100
+                      Count:
+                        type: integer
+                      UniqueCount:
+                        type: integer
+                  example:
+                    - Id: ee6e068c-0b84-2813-2cb3-24c189b90be2
+                      Name: MICROSOFT.GOVERNMENT.US.STATE
+                      Confidence: 90
+                      Count: 1
+                      UniqueCount: 1
+                    - Id: 50b8b56b-4ef8-44c2-a924-03374f5831ce
+                      Name: MICROSOFT.PERSONAL.NAME
+                      Confidence: 85
+                      Count: 1
+                      UniqueCount: 1
+                    - Id: 46b001f5-a4ce-0497-8177-7b13916bb6fa
+                      Name: MICROSOFT.PERSONAL.US.PHONE_NUMBER
+                      Confidence: 86
+                      Count: 1
+                      UniqueCount: 1
+                    - Id: a44669fe-0d48-453d-a9b1-2cc83f2cba77
+                      Name: U.S. Social Security Number (SSN)
+                      Confidence: 88
+                      Count: 108
+                      UniqueCount: 108
+      responses:
+        "200":
+          description: Successfully received the asset classification data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+        "400":
+          description: Bad request due to missing or invalid parameters.
+        "401":
+          description: Unauthorized access.
+        "500":
+          description: Internal server error.
