@@ -18,4 +18,4 @@ SkillGroups:
  - Format: API
    Settings:
      OpenApiSpecURL: https://raw.githubusercontent.com/kevinmjones/mscp/refs/heads/main/Tools/Purview/purviewOpenAPI.yaml
-     EndpointUrlSettingName: InstanceURL
+     EndpointUrlSettingName: endpoint
