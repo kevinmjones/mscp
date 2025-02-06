@@ -1,0 +1,16 @@
+Descriptor:
+  Name: OTIntegrationManagerTool
+  DisplayName: OneTrust Integration Manager Tool
+  Description: This tool can send request payload using post to OneTrust Integration Manager webhook
+  SupportedAuthTypes:
+    - ApiKey
+  Authorization:
+    Type: APIKey
+    Key: Authorization
+    Location: Header
+    AuthScheme: 'Bearer'
+
+SkillGroups:
+  - Format: API
+    Settings:
+      OpenApiSpecUrl: https://raw.githubusercontent.com/teebu/ms-ot/refs/heads/main/Tools/PIIDataDetector/ot_integration_manager_openapi.yaml
