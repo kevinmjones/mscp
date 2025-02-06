@@ -1,23 +1,21 @@
 openapi: 3.0.0
 info:
-  title: Purview Discovery Query API
+  title: Purview Search API
   version: "2023-09-01"
   description: >
-    This API allows you to get data using search from Azure Purview.
-    It supports filtering, faceting, and ordering search results.
+    This API endpoint allows you to search for an asset by its fully qualified name.
 servers:
-  - url: https://{endpoint}/datamap/api
+  - url: https://{endpoint}
     description: Purview endpoint
     variables:
       endpoint:
         default: "your-purview-endpoint"
         description: The fully qualified host name for your Purview account.
 paths:
-  /search/query:
+  /datamap/api/search/query:
     post:
-      summary: Discovery Query
-      description: Get data using search.
-      operationId: discoveryQuery
+      summary: Search for an asset by fully qualified name
+      operationId: queryAssetByFQN
       parameters:
         - name: api-version
           in: query
@@ -25,196 +23,52 @@ paths:
           required: true
           schema:
             type: string
-            example: "2023-09-01"
+          example: "2023-09-01"
       requestBody:
+        description: Query request payload.
         required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                continuationToken:
-                  type: string
-                  description: >
-                    The token used to get the next batch of data.
-                    Use null (or omit) to retrieve the first batch.
-                facets:
-                  type: array
-                  description: The facets for search. See examples for supported facets.
-                  items:
-                    $ref: '#/components/schemas/SearchFacetItem'
-                filter:
-                  type: object
-                  description: >
-                    The filter for the search. Supports logical operators (and/or) and attribute filtering.
-                  additionalProperties: true
                 keywords:
                   type: string
-                  description: The keywords applied to all searchable fields.
-                limit:
-                  type: integer
-                  description: >
-                    The maximum number of search results to return. Default is 50; maximum is 1000.
-                  default: 50
-                  maximum: 1000
-                orderby:
-                  type: array
-                  description: >
-                    The sort order of search results. Multiple fields can be specified.
-                  items:
-                    $ref: '#/components/schemas/OrderbyItem'
-                taxonomySetting:
-                  type: object
-                  description: The taxonomy setting for search.
-                  additionalProperties: true
+                  description: The fully qualified name (FQN) of the asset.
+              required:
+                - keywords
               example:
-                keywords: "exampledata"
-                filter:
-                  and:
-                    - entityType: "azure_blob_path"
-                    - attributeName: "qualifiedName"
-                      operator: "contains"
-                      attributeValue: ".csv"
-                limit: 10
-                orderby:
-                  - name: "ASC"
-                  - updateTime: "DESC"
-                facets:
-                  - facet: "assetType"
-                    count: 0
-                    sort:
-                      count: "desc"
+                keywords: "your-asset-fqn"
       responses:
         '200':
-          description: The request has succeeded.
+          description: Successful query response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Placeholder response schema.
+                properties:
+                  result:
+                    type: string
+                    description: A message indicating success.
+                    example: "Query executed successfully"
+        '400':
+          description: Bad Request – The request was invalid.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  "@search.count":
-                    type: integer
-                  "@search.count.approximate":
-                    type: boolean
-                  continuationToken:
+                  error:
                     type: string
-                    description: Token for next page, if available.
-                  "@search.facets":
-                    type: object
-                    description: Facet information.
-                    additionalProperties:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          count:
-                            type: integer
-                          value:
-                            type: string
-                  value:
-                    type: array
-                    description: List of search result items.
-                    items:
-                      $ref: '#/components/schemas/SearchResultItem'
-        default:
-          description: An unexpected error response.
+                    example: "Invalid input"
+        '500':
+          description: Internal Server Error – An unexpected error occurred.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AtlasErrorResponse'
-      security:
-        - OAuth2Auth: []
-components:
-  schemas:
-    SearchFacetItem:
-      type: object
-      properties:
-        facet:
-          type: string
-          description: The facet field name.
-        count:
-          type: integer
-          description: The count of results for the facet.
-        sort:
-          type: object
-          description: The sort order for the facet.
-          properties:
-            count:
-              type: string
-              enum: [asc, desc]
-      required:
-        - facet
-        - count
-    OrderbyItem:
-      type: object
-      description: An object representing a field and its sort order.
-      additionalProperties:
-        type: string
-        enum: [ASC, DESC, asc, desc]
-    SearchResultItem:
-      type: object
-      properties:
-        "@search.score":
-          type: number
-          description: The search score.
-        "@search.highlights":
-          type: object
-          description: Fields highlighting matching text.
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        id:
-          type: string
-        qualifiedName:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-          nullable: true
-        owner:
-          type: string
-          nullable: true
-        entityType:
-          type: string
-        classification:
-          type: array
-          items:
-            type: string
-        label:
-          type: array
-          items:
-            type: string
-        assetType:
-          type: array
-          items:
-            type: string
-        term:
-          type: array
-          items:
-            type: string
-        contact:
-          type: array
-          items:
-            type: string
-    AtlasErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-      required:
-        - error
-  securitySchemes:
-    OAuth2Auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: "https://login.microsoftonline.com/common/oauth2/authorize"
-          scopes:
-            "https://purview.azure.net/.default": "Access Purview resources"
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "An unexpected error occurred"
