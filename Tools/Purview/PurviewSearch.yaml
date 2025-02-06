@@ -1,0 +1,21 @@
+Descriptor:
+  Name: Search Purview
+  Description: use this plugin to search Purview for an asset by keywords or fqn
+  SupportedAuthTypes:
+    - AAD
+  Authorization:
+    Type: AAD
+    EntraScopes: https://purview.azure.net/.default
+  Settings:
+    - Name: endpoint
+      Label: Purview URL
+      Description: The URL of the instance to connect to
+      HintText: "https://purview.microsoft.com"
+      SettingType: String
+      Required: true
+
+SkillGroups:
+ - Format: API
+   Settings:
+     OpenApiSpecURL: https://raw.githubusercontent.com/kevinmjones/mscp/refs/heads/main/Tools/Purview/purviewOpenAPI.yaml
+     EndpointUrlSettingName: InstanceURL
