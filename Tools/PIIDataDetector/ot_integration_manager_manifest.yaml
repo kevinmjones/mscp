@@ -1,7 +1,7 @@
 Descriptor:
-  Name: OTIntegrationManagerTool
-  DisplayName: OneTrust Integration Manager Tool
-  Description: This tool can send request payload using post to OneTrust Integration Manager webhook
+  Name: OneTrust Personal Data Detection Integration
+  DisplayName: OneTrust PII Detection
+  Description: This tool creates a payload and sends it to OneTrust to create assets with personal data 
   SupportedAuthTypes:
     - ApiKey
   Authorization:
