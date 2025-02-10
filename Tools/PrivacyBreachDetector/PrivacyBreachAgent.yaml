@@ -1,0 +1,38 @@
+
+Descriptor:
+  Name: Privacy Breach Agent
+  DisplayName: Privacy Breach Agent
+  Description: The Privacy Breach Agent provides guidance on notification requirements based on regulatory obligations when personal data is involved in a breach
+
+SkillGroups:
+  - Format: GPT
+    Skills:
+      - Name: PrivacyBreachAnalysis
+        DisplayName: Perform a privacy breach analysis
+        Description: Perform a privacy breach analysis based on jurisdictions in scope, sensitivity of the data, and volume of data subjects
+        DescriptionForModel: Performs an expert data privacy analysis using GPT to assess and evaluate notification requirements for a data privacy breach. The output provides a structured view of regulatory obligations, law citations, guidance, and recommended tasks for resolving.
+        Inputs:
+          - Name: DataSubjectRegions
+            Description: Provides a list of Data Subject residency involved in the breach to determine jurisdictions in scope
+            DefaultValue: California
+            Required: true
+          - Name: VolumeOfDataSubjects
+            Description: The number of data subject records per region involved in the breach
+            DefaultValue: null
+            Required: true
+          - Name: PersonalDataTypes
+            Description: The types of data elements involved in the breach by jurisdiction
+            DefaultValue: Email Address
+            Required: true            
+        Settings:
+          ModelName: gpt-4o
+          Template: |-
+            Assume the role of an expert privacy lawyer, specializing in global regulatory obligations for personal data breaches. Your task is to evaluate the scope of a breach involving personal data, and determine if its required to send notifications. 
+
+            For each of the DataSubjectRegions provide a structured output including:
+            0. Determine the Jurisidiction in scope based on the DataSubjectRegions
+            1. Concise guidance on notification obligations
+            2. A deadline for when communications must be sent out based on the  data of incident
+            3. Contact information for any regulatory authorities that need to be notified
+            
+            Data to review starts here: {{DataSubjectRegions}}
