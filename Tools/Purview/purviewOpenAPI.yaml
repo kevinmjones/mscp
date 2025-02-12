@@ -12,18 +12,10 @@ servers:
         default: "your-purview-endpoint"
         description: The fully qualified host name for your Purview account.
 paths:
-  /datamap/api/search/query:
+  /datamap/api/search/query?api-version=2022-08-01-preview:
     post:
-      summary: Search for an asset by fully qualified name
-      operationId: queryAssetByFQN
-      parameters:
-        - name: api-version
-          in: query
-          description: The API version to use for this operation.
-          required: true
-          schema:
-            type: string
-          example: "2023-09-01"
+      summary: Search for an asset by keyword or fully qualified name
+      operationId: queryAssetByKeywords
       requestBody:
         description: Query request payload.
         required: true
